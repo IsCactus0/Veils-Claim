@@ -1,5 +1,7 @@
 # Veils Claim
 
+![White Logo](assets/logo_white.png?raw=true "White Logo")
+
 Set in deep space, Veil's Claim is a rogue-like RPG in which the player uses a scanner to explore and salvage from the furthest sectors of space.
 The player will search through abandoned space-stations, remnants of past wars, and other anomalies; with the ultimate goal of turning a profit.
 
