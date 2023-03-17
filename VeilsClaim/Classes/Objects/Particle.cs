@@ -10,7 +10,7 @@ namespace VeilsClaim.Classes.Objects
         public Particle()
             : base()
         {
-            Colour = Color.Magenta;
+            Colour = Color.White;
             StartSize = 10f;
             EndSize = 10f;
             Size = StartSize;
@@ -62,13 +62,14 @@ namespace VeilsClaim.Classes.Objects
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            Texture2D texture = AssetManager.GetTexture("circle");
             spriteBatch.Draw(
-                AssetManager.GetTexture("empty"),
+                texture,
                 new Rectangle(
                     (int)(Position.X - (Size / 2f)),
                     (int)(Position.Y - (Size / 2f)),
                     (int)Size, (int)Size),
-                new Rectangle(),
+                texture.Bounds,
                 Colour * ((Size - StartSize) / EndSize),
                 Rotation, new Vector2(0.5f), SpriteEffects.None, 0f);
         }

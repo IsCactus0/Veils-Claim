@@ -27,20 +27,13 @@ namespace VeilsClaim.Classes.Managers
                     particles[i].Update(delta);
                 }
 
-            particles.Add(new SmokeParticle()
-            {
-                StartSize = 10f,
-                EndSize = 100f,
-                SizeScaleMult = 1f,
-                StartColour = Color.Gray,
-                EndColour = Color.Transparent,
-                ColourScaleMult = 1f,
-                Rotation = Main.random.Next(-10, 10),
-                RotationalVelocity = Main.random.Next(-10, 10),
-                Position = new Vector2(
-                    Main.random.Next(Main.camera.BoundingBox.Left, Main.camera.BoundingBox.Right),
-                    Main.random.Next(Main.camera.BoundingBox.Top, Main.camera.BoundingBox.Bottom)),
-            });
+            if (particles.Count < 1)
+                particles.Add(new Particle()
+                {
+                    Size = 100f,
+                    Colour = Color.White,
+                    Position = Main.camera.BoundingBox.Center.ToVector2()
+                });
 
             base.Update(gameTime);
         }

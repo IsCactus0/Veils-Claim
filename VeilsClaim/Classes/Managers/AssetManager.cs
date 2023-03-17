@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace VeilsClaim.Classes.Managers
@@ -11,11 +12,12 @@ namespace VeilsClaim.Classes.Managers
             : base(game)
         {
             content = game.Content;
-            textures = new Dictionary<string, Texture2D>();
-
-            Texture2D pixel = new Texture2D(game.GraphicsDevice, 1, 1);
-            pixel.SetData(new Color[] { Color.White });
-            textures.Add("empty", pixel);
+            textures = new Dictionary<string, Texture2D>
+            {
+                { "empty", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.Magenta) },
+                { "square", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.White) },
+                { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 16, Color.White) }
+            };
         }
         
         public static ContentManager content;
@@ -25,7 +27,11 @@ namespace VeilsClaim.Classes.Managers
         {
             if (textures.ContainsKey(name))
                 return textures[name];
-            else return textures["empty"];
+            else
+            {
+                Console.WriteLine($"texture failed to load: {name}.");
+                return textures["empty"];
+            }
         }
     }
 }

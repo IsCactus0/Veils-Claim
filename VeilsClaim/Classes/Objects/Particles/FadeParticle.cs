@@ -6,6 +6,42 @@ namespace VeilsClaim.Classes.Objects.Particles
 {
     internal class FadeParticle : Particle
     {
+        public FadeParticle()
+            : base()
+        {
+            StartColour = Colour;
+            EndColour = Color.Transparent;
+            ColourScaleMult = 1f;
+        }
+        public FadeParticle(Color colour)
+            : base(colour)
+        {
+            StartColour = colour;
+            EndColour = Color.Transparent;
+            ColourScaleMult = 1f;
+        }
+        public FadeParticle(Color startColour, Color endColour)
+            : base(startColour)
+        {
+            StartColour = startColour;
+            EndColour = endColour;
+            ColourScaleMult = 1f;
+        }
+        public FadeParticle(Color startColour, Color endColour, float colourScale, float size)
+            : base(startColour, size)
+        {
+            StartColour = startColour;
+            EndColour = endColour;
+            ColourScaleMult = colourScale;
+        }
+        public FadeParticle(Color startColour, Color endColour, float colourScale, float startSize, float endSize)
+            : base(startColour, startSize, endSize)
+        {
+            StartColour = startColour;
+            EndColour = endColour;
+            ColourScaleMult = colourScale;
+        }
+
         public Color StartColour;
         public Color EndColour;
         public float ColourScaleMult;
