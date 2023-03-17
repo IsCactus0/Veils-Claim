@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using VeilsClaim.Classes.Managers;
+using VeilsClaim.Classes.Objects;
 using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim
@@ -15,6 +16,8 @@ namespace VeilsClaim
         public static Camera camera;
         public static Random random;
         public static OpenSimplexNoise simplexNoise;
+
+        public static Level level;
 
         public static float noiseOffset;
         public static float gameSpeed;
@@ -43,10 +46,13 @@ namespace VeilsClaim
             spriteBatch = new SpriteBatch(GraphicsDevice);
             random = new Random();
             simplexNoise = new OpenSimplexNoise();
+
             gameSpeed = 1f;
             physicsDistance = 100f;
             renderDistance = 0f;
             gravityStrength = 1f;
+
+            level = new Level(32, 16);
         }
         protected override void Update(GameTime gameTime)
         {
@@ -56,14 +62,15 @@ namespace VeilsClaim
                 Exit();
 
             noiseOffset += delta;
-
             camera.Update(delta, 10, Vector2.Zero);
 
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(level.backgroundColour);
+
+            level.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
