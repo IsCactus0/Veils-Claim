@@ -16,7 +16,7 @@ namespace VeilsClaim.Classes.Managers
             {
                 { "empty", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.Magenta) },
                 { "square", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.White) },
-                { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 16, Color.White) }
+                { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 4, Color.White) }
             };
         }
         

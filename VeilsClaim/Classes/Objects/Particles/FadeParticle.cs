@@ -6,50 +6,42 @@ namespace VeilsClaim.Classes.Objects.Particles
 {
     internal class FadeParticle : Particle
     {
-        public FadeParticle()
-            : base()
+        public FadeParticle() : base()
         {
-            StartColour = Colour;
+            StartColour = Color.White;
             EndColour = Color.Transparent;
-            ColourScaleMult = 1f;
         }
         public FadeParticle(Color colour)
             : base(colour)
         {
             StartColour = colour;
             EndColour = Color.Transparent;
-            ColourScaleMult = 1f;
         }
         public FadeParticle(Color startColour, Color endColour)
             : base(startColour)
         {
             StartColour = startColour;
             EndColour = endColour;
-            ColourScaleMult = 1f;
         }
-        public FadeParticle(Color startColour, Color endColour, float colourScale, float size)
+        public FadeParticle(Color startColour, Color endColour, float size)
             : base(startColour, size)
         {
             StartColour = startColour;
             EndColour = endColour;
-            ColourScaleMult = colourScale;
         }
-        public FadeParticle(Color startColour, Color endColour, float colourScale, float startSize, float endSize)
+        public FadeParticle(Color startColour, Color endColour, float startSize, float endSize)
             : base(startColour, startSize, endSize)
         {
             StartColour = startColour;
             EndColour = endColour;
-            ColourScaleMult = colourScale;
         }
 
         public Color StartColour;
         public Color EndColour;
-        public float ColourScaleMult;
 
         public override void Update(float delta)
         {
-            Colour = Color.Lerp(StartColour, EndColour,
-                Math.Clamp(TimeAlive * ColourScaleMult, 0f, 1f));
+            Colour = Color.Lerp(EndColour, StartColour, (MaxLifespan - TimeAlive) / MaxLifespan);
 
             base.Update(delta);
         }

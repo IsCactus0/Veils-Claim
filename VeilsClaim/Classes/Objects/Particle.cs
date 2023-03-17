@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using VeilsClaim.Classes.Managers;
 
 namespace VeilsClaim.Classes.Objects
@@ -53,10 +52,10 @@ namespace VeilsClaim.Classes.Objects
         }
         public override void Update(float delta)
         {
+            if (TimeAlive >= MaxLifespan)
+                Destroy();
             if (Size < EndSize)
-                Size = MathHelper.Lerp(
-                    StartSize, EndSize, 
-                    Math.Clamp(TimeAlive * SizeScaleMult, 0f, 1f));   
+                Size = MathHelper.Lerp(EndSize, StartSize, (MaxLifespan - TimeAlive) / MaxLifespan);
             
             base.Update(delta);
         }

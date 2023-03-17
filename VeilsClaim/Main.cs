@@ -14,7 +14,9 @@ namespace VeilsClaim
 
         public static Camera camera;
         public static Random random;
+        public static OpenSimplexNoise simplexNoise;
 
+        public static float noiseOffset;
         public static float gameSpeed;
         public static float physicsDistance;
         public static float renderDistance;
@@ -40,6 +42,7 @@ namespace VeilsClaim
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             random = new Random();
+            simplexNoise = new OpenSimplexNoise();
             gameSpeed = 1f;
             physicsDistance = 100f;
             renderDistance = 0f;
@@ -51,6 +54,8 @@ namespace VeilsClaim
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            noiseOffset += delta;
 
             camera.Update(delta, 10, Vector2.Zero);
 

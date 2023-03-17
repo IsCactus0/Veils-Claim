@@ -27,7 +27,7 @@ namespace VeilsClaim.Classes.Objects
             if (Gravity)
                 Force += new Vector2(0, Main.gravityStrength * Mass);
             if (Health <= 0f)
-                EntityManager.entities.Remove(this);
+                Destroy();
 
             base.Update(delta);
         }

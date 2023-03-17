@@ -12,7 +12,7 @@ namespace VeilsClaim.Classes.Utilities
         }
         public static Texture2D Circle(GraphicsDevice graphicsDevice, int radius, Color colour)
         {
-            Texture2D circle = new Texture2D(graphicsDevice, radius * 2, radius * 2);
+            Texture2D circle = new Texture2D(graphicsDevice, radius * 2 + 1, radius * 2 + 1);
             Color[] colors = new Color[circle.Width * circle.Height];
             Vector2 center = new Vector2(radius);
 
@@ -40,7 +40,7 @@ namespace VeilsClaim.Classes.Utilities
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                 {
-                    if (Math.Abs(x - center.X) <= width && Math.Abs(y - center.Y) <= height);
+                    if (Math.Abs(x - center.X) <= width && Math.Abs(y - center.Y) <= height)
                         colors[y * width + x] = colour;
                 }
 
