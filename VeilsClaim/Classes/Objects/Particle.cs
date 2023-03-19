@@ -61,7 +61,7 @@ namespace VeilsClaim.Classes.Objects
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D texture = AssetManager.GetTexture("circle");
+            Texture2D texture = AssetManager.LoadTexture("circle");
             spriteBatch.Draw(
                 texture,
                 new Rectangle(

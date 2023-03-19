@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace VeilsClaim.Classes.Managers
 {
@@ -12,26 +13,52 @@ namespace VeilsClaim.Classes.Managers
             : base(game)
         {
             content = game.Content;
+            device = game.GraphicsDevice;
             textures = new Dictionary<string, Texture2D>
             {
                 { "empty", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.Magenta) },
                 { "square", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.White) },
                 { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 4, Color.White) }
             };
+            fonts = new Dictionary<string, SpriteFont>();
+            assetPath = @$"../../../Assets/";
         }
         
         public static ContentManager content;
+        public static GraphicsDevice device;
         public static Dictionary<string, Texture2D> textures;
+        public static Dictionary<string, SpriteFont> fonts;
+        public static string assetPath;
 
-        public static Texture2D GetTexture(string name)
+        public static Texture2D LoadTexture(string file)
         {
-            if (textures.ContainsKey(name))
-                return textures[name];
-            else
+            if (!textures.ContainsKey(file))
             {
-                Console.WriteLine($"texture failed to load: {name}.");
-                return textures["empty"];
+                try
+                {
+                    FileStream stream = File.OpenRead($@"{assetPath}/Textures/{file}.png");
+                    Texture2D texture = Texture2D.FromStream(device, stream);
+                    stream.Close();
+
+                    Color[] buffer = new Color[texture.Width * texture.Height];
+                    texture.GetData(buffer);
+                    for (int i = 0; i < buffer.Length; i++)
+                        buffer[i] = Color.FromNonPremultiplied(buffer[i].R, buffer[i].G, buffer[i].B, buffer[i].A);
+                    texture.SetData(buffer);
+
+                    textures.Add(file, texture);
+                }
+                catch (FileNotFoundException error)
+                {
+                    #if (DEBUG)
+                        Console.WriteLine($"Error while loading texture {file}:\n{error}\n");
+                    #endif
+                    return textures["empty"];
+                }
+
             }
+
+            return textures[file];
         }
     }
 }

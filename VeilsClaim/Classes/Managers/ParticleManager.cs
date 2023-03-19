@@ -26,18 +26,18 @@ namespace VeilsClaim.Classes.Managers
                 for (int i = particles.Count - 1; i >= 0; i--)
                     particles[i].Update(delta);
 
-            for (int i = 0; i < Main.random.Next(1, 3); i++)
-                particles.Add(new DustParticle()
-                {
-                    StartSize = 10f,
-                    EndSize = Main.random.Next(200, 400),
-                    StartColour = Color.Gainsboro * 0.1f,
-                    EndColour = Color.Transparent,
-                    MaxLifespan = 3f,
-                    Position = new Vector2(
-                        Main.camera.BoundingBox.Center.X + Main.random.Next(-100, 100),
-                        Main.camera.BoundingBox.Center.Y + Main.random.Next(-100, 100))
-                });
+            // for (int i = 0; i < Main.random.Next(1, 3); i++)
+            //     particles.Add(new DustParticle()
+            //     {
+            //         StartSize = 10f,
+            //         EndSize = Main.random.Next(200, 400),
+            //         StartColour = Color.Gainsboro * 0.1f,
+            //         EndColour = Color.Transparent,
+            //         MaxLifespan = 3f,
+            //         Position = new Vector2(
+            //             Main.camera.BoundingBox.Center.X + Main.random.Next(-100, 100),
+            //             Main.camera.BoundingBox.Center.Y + Main.random.Next(-100, 100))
+            //     });
 
                 base.Update(gameTime);
         }

@@ -50,7 +50,7 @@ namespace VeilsClaim.Classes.Objects
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                AssetManager.GetTexture("empty"),
+                AssetManager.LoadTexture("empty"),
                 new Rectangle(
                     (int)Position.X, (int)Position.Y, 50, 50),
                 new Rectangle(),

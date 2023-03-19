@@ -31,11 +31,18 @@ namespace VeilsClaim.Classes.Objects
         public List<Entity> entiies;
         public Color backgroundColour;
 
+        public virtual void Update(float delta)
+        {
+            for (int y = 0; y < tiles.GetLength(1); y++)
+                for (int x = 0; x < tiles.GetLength(0); x++)
+                    if (tiles[x, y] is DynamicTile)
+                        ((DynamicTile)tiles[x, y])?.Update(delta);
+        }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             for (int y = 0; y < tiles.GetLength(1); y++)
                 for (int x = 0; x < tiles.GetLength(0); x++)
-                    tiles[x, y]?.Draw(spriteBatch, new Point(3, 3));
+                    tiles[x, y]?.Draw(spriteBatch, new Point(x, y));
         }
     }
 }

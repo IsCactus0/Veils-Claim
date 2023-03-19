@@ -14,10 +14,10 @@ namespace VeilsClaim.Classes.Objects
         public virtual void Draw(SpriteBatch spriteBatch, Point gridPosition)
         {
             spriteBatch.Draw(
-                AssetManager.GetTexture(Name),
+                AssetManager.LoadTexture(Name),
                 new Rectangle(
-                    Sprite.X + gridPosition.X,
-                    Sprite.Y + gridPosition.Y,
+                    Sprite.X + gridPosition.X * 8,
+                    Sprite.Y + gridPosition.Y * 12,
                     Sprite.Width,
                     Sprite.Height),
                 Color.White);
