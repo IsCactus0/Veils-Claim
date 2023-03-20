@@ -4,7 +4,7 @@ using System;
 
 namespace VeilsClaim.Classes.Objects.Particles
 {
-    internal class FadeParticle : Particle
+    public class FadeParticle : Particle
     {
         public FadeParticle() : base()
         {

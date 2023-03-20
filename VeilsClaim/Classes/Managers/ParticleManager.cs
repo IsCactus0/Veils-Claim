@@ -26,20 +26,22 @@ namespace VeilsClaim.Classes.Managers
                 for (int i = particles.Count - 1; i >= 0; i--)
                     particles[i].Update(delta);
 
-            // for (int i = 0; i < Main.random.Next(1, 3); i++)
-            //     particles.Add(new DustParticle()
-            //     {
-            //         StartSize = 10f,
-            //         EndSize = Main.random.Next(200, 400),
-            //         StartColour = Color.Gainsboro * 0.1f,
-            //         EndColour = Color.Transparent,
-            //         MaxLifespan = 3f,
-            //         Position = new Vector2(
-            //             Main.camera.BoundingBox.Center.X + Main.random.Next(-100, 100),
-            //             Main.camera.BoundingBox.Center.Y + Main.random.Next(-100, 100))
-            //     });
+            particles.Add(new SparkParticle()
+            {
+                StartSize = 5f,
+                EndSize = 5f,
+                StartColour = Color.Orange * 0.2f,
+                EndColour = Color.Maroon * 0.2f,
+                SparkStartSize = 3f,
+                SparkEndSize = 1f,
+                SparkStartColour = Color.White,
+                SparkEndColour = Color.OrangeRed,
+                MaxLifespan = (float)Main.random.NextDouble() / 2f + 1.5f,
+                WindStrength = 400f,
+                Position = Main.camera.Position + new Vector2(Main.random.Next(-3, 3), Main.random.Next(-3, 3))
+            });
 
-                base.Update(gameTime);
+            base.Update(gameTime);
         }
         public override void Draw(GameTime gameTime)
         {

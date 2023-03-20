@@ -20,6 +20,10 @@ namespace VeilsClaim.Classes.Utilities
         private float minScale = 0.1f;
         private float rotation = 0f;
 
+        public Matrix InvertedTransform
+        {
+            get { return Matrix.Invert(transform); }
+        }
         public Matrix Transform
         {
             get { return transform; }
@@ -101,7 +105,7 @@ namespace VeilsClaim.Classes.Utilities
             transform =
                 Matrix.CreateTranslation(new Vector3(-position.X, -position.Y, 0)) *
                 Matrix.CreateRotationZ(Rotation) *
-                Matrix.CreateScale(new Vector3(Scale, Scale, 0)) *
+                Matrix.CreateScale(new Vector3(Scale, Scale, 1)) *
                 Matrix.CreateTranslation(new Vector3(Viewport.Width / 2f, Viewport.Height / 2f, 0));
         }
     }

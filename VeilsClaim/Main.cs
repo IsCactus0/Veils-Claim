@@ -39,7 +39,7 @@ namespace VeilsClaim
             Components.Add(new EntityManager(this));
             Components.Add(new ParticleManager(this));
 
-            SetResolution(800, 600, false);
+            SetResolution(1200, 800, false);
 
             base.Initialize();
         }
@@ -55,69 +55,17 @@ namespace VeilsClaim
             gravityStrength = 1f;
 
             level = new Level(32, 16);
-            level.tiles[0, 0] = new Tile()
-            {
-                Sprite = new Rectangle(0, 0, 8, 12),
-                Hitbox = new Rectangle(0, 0, 8, 3),
-                Name = "wall",
-            };
-            level.tiles[1, 0] = new DoorTile()
-            {
-                Sprite = new Rectangle(0, 0, 8, 12),
-                Hitbox = new Rectangle(0, 0, 8, 3),
-                frameChange = 1,
-                frameRate = 0.02f,
-                frames = new List<string>()
-                {
-                    "airlock_0",
-                    "airlock_1",
-                    "airlock_2",
-                    "airlock_3",
-                    "airlock_4",
-                    "airlock_5",
-                    "airlock_6"
-                },
-                Name = "airlock_0",
-                isOpen = false
-            };
-            level.tiles[2, 0] = new Tile()
-            {
-                Sprite = new Rectangle(0, 0, 8, 12),
-                Hitbox = new Rectangle(0, 0, 8, 3),
-                Name = "wall",
-            };
-
-            level.tiles[0, 1] = new Tile()
-            {
-                Sprite = new Rectangle(0, 0, 8, 8),
-                Hitbox = new Rectangle(0, 0, 8, 8),
-                Name = "floor_0",
-            };
-            level.tiles[1, 1] = new Tile()
-            {
-                Sprite = new Rectangle(0, 0, 8, 8),
-                Hitbox = new Rectangle(0, 0, 8, 8),
-                Name = "floor_1",
-            };
-            level.tiles[2, 1] = new Tile()
-            {
-                Sprite = new Rectangle(0, 0, 8, 8),
-                Hitbox = new Rectangle(0, 0, 8, 8),
-                Name = "floor_2",
-            };
         }
         protected override void Update(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * gameSpeed;
             noiseOffset += delta;
 
-            camera.Scale = 20f;
-            camera.Update(delta, 10, new Vector2(12, 6));
-
-            if (InputManager.InputPressed("zoomIn")) camera.Scale += delta * 50f;
-            if (InputManager.InputPressed("zoomOut")) camera.Scale -= delta * 50f;
+            if (InputManager.InputPressed("zoomIn")) camera.Scale += delta * 5f;
+            if (InputManager.InputPressed("zoomOut")) camera.Scale -= delta * 5f;
             if (InputManager.InputPressed("exit")) Exit();
 
+            camera.Update(delta, 10, new Vector2(12, 6));
             level.Update(delta);
             base.Update(gameTime);
         }
@@ -148,6 +96,7 @@ namespace VeilsClaim
             graphics.ApplyChanges();
 
             camera = new Camera(new Viewport(width / 2, height / 2, width, height));
+            camera.Scale = 10;
         }
     }
 }

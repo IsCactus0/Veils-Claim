@@ -4,7 +4,7 @@ using System;
 
 namespace VeilsClaim.Classes.Objects.Particles
 {
-    internal class DustParticle : FadeParticle
+    public class DustParticle : FadeParticle
     {
         public DustParticle() : base()
         {
@@ -23,6 +23,8 @@ namespace VeilsClaim.Classes.Objects.Particles
             Force += new Vector2(
                 (float)Math.Cos(angle), 
                 (float)Math.Sin(angle)) * (WindStrength * (1f - TimeAlive / MaxLifespan));
+
+            Force += new Vector2(0, (TimeAlive / MaxLifespan) * -200f);
 
             base.Update(delta);
         }

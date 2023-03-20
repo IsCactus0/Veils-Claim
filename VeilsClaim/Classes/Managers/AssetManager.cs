@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using VeilsClaim.Classes.Enums;
 
 namespace VeilsClaim.Classes.Managers
 {
@@ -17,8 +18,9 @@ namespace VeilsClaim.Classes.Managers
             textures = new Dictionary<string, Texture2D>
             {
                 { "empty", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.Magenta) },
-                { "square", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.White) },
-                { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 4, Color.White) }
+                { "simple", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.White) },
+                { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 32, Color.White, FadeType.Edge) },
+                { "blur", Utilities.Drawing.Circle(game.GraphicsDevice, 32, Color.White, FadeType.InverseSquare) }
             };
             fonts = new Dictionary<string, SpriteFont>();
             assetPath = @$"../../../Assets/";

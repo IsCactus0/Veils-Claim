@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using VeilsClaim.Classes.Enums;
 
 namespace VeilsClaim.Classes.Utilities
 {
@@ -12,16 +13,37 @@ namespace VeilsClaim.Classes.Utilities
         }
         public static Texture2D Circle(GraphicsDevice graphicsDevice, int radius, Color colour)
         {
+            return Circle(graphicsDevice, radius, colour, FadeType.Edge);
+        }
+        public static Texture2D Circle(GraphicsDevice graphicsDevice, int radius, Color colour, FadeType fadeType)
+        {
             Texture2D circle = new Texture2D(graphicsDevice, radius * 2 + 1, radius * 2 + 1);
             Color[] colors = new Color[circle.Width * circle.Height];
             Vector2 center = new Vector2(radius);
+            Color finalColour;
 
             for (int y = 0; y < circle.Height; y++)
                 for (int x = 0; x < circle.Width; x++)
                 {
                     float distance = Vector2.Distance(new Vector2(x, y), center);
                     if (distance <= radius)
-                        colors[y * circle.Width + x] = colour * (radius - distance); // Used to blur edges.
+                    {
+                        finalColour = colour;
+                        switch (fadeType)
+                        {
+                            case FadeType.Edge:
+                                finalColour *= (radius - distance);
+                                break;
+                            case FadeType.Linear:
+                                finalColour *= 1f - (distance / radius);
+                                break;
+                            case FadeType.InverseSquare:
+                                finalColour *= 1f - ((distance / radius) * (distance / radius));
+                                break;
+                        }
+
+                        colors[y * circle.Width + x] = finalColour;
+                    }
                 }
 
             circle.SetData(colors);

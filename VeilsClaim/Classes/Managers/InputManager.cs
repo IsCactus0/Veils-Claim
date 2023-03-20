@@ -62,5 +62,13 @@ namespace VeilsClaim.Classes.Managers
                     (currGamePadState.IsButtonDown(gamePadControls[action]) &&
                     prevGamePadState.IsButtonUp(gamePadControls[action]));
         }
+        public static Vector2 MouseWorldPosition()
+        {
+            return Vector2.Transform(currMouseState.Position.ToVector2(), Main.camera.InvertedTransform);
+        }
+        public static Vector2 MouseScreenPosition()
+        {
+            return currMouseState.Position.ToVector2();
+        }
     }
 }
