@@ -8,41 +8,51 @@ namespace VeilsClaim.Classes.Objects
     {
         public Level()
         {
-            tiles = new Tile[32, 32];
+            width = 16;
+            height = 16;
+            tiles = new Tile[272];
             backgroundColour = Color.FromNonPremultiplied(30, 30, 37, 256);
         }
         public Level(int size)
         {
-            tiles = new Tile[size, size];
+            width = size;
+            height = size;
+            tiles = new Tile[size * size + size];
             backgroundColour = Color.FromNonPremultiplied(30, 30, 37, 256);
         }
         public Level(int width, int height)
         {
-            tiles = new Tile[width, height];
+            this.width = width;
+            this.height = height;
+            tiles = new Tile[height * width + width];
             backgroundColour = Color.FromNonPremultiplied(30, 30, 37, 256);
         }
         public Level(int width, int height, Color backgroundColour)
         {
-            tiles = new Tile[width, height];
+            this.width = width;
+            this.height = height;
+            tiles = new Tile[height * width + width];
             this.backgroundColour = backgroundColour;
         }
 
-        public Tile[,] tiles;
+        public int width;
+        public int height;
+        public Tile[] tiles;
         public List<Entity> entiies;
         public Color backgroundColour;
 
         public virtual void Update(float delta)
         {
-            for (int y = 0; y < tiles.GetLength(1); y++)
-                for (int x = 0; x < tiles.GetLength(0); x++)
-                    if (tiles[x, y] is DynamicTile)
-                        ((DynamicTile)tiles[x, y])?.Update(delta);
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    if (tiles[y * width + x] is DynamicTile)
+                        ((DynamicTile)tiles[y * x + x])?.Update(delta);
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            for (int y = 0; y < tiles.GetLength(1); y++)
-                for (int x = 0; x < tiles.GetLength(0); x++)
-                    tiles[x, y]?.Draw(spriteBatch, new Point(x, y));
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                    tiles[y * width + x]?.Draw(spriteBatch, new Point(x, y));
         }
     }
 }

@@ -13,7 +13,8 @@ namespace VeilsClaim
     {
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
-
+        
+        public static RenderTarget2D renderTarget;
         public static Camera camera;
         public static Random random;
         public static OpenSimplexNoise simplexNoise;
@@ -36,10 +37,11 @@ namespace VeilsClaim
         {
             Components.Add(new InputManager(this));
             Components.Add(new AssetManager(this));
+            Components.Add(new LevelManager(this));
             Components.Add(new EntityManager(this));
             Components.Add(new ParticleManager(this));
 
-            SetResolution(1200, 800, false);
+            SetResolution(1920, 1080, false);
 
             base.Initialize();
         }
@@ -54,27 +56,30 @@ namespace VeilsClaim
             renderDistance = 0f;
             gravityStrength = 1f;
 
-            level = new Level(32, 16);
+            LevelManager.WriteXML("test");
+            LevelManager.ReadXML("test");
         }
         protected override void Update(GameTime gameTime)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * gameSpeed;
             noiseOffset += delta;
 
-            if (InputManager.InputPressed("zoomIn")) camera.Scale += delta * 5f;
-            if (InputManager.InputPressed("zoomOut")) camera.Scale -= delta * 5f;
-            if (InputManager.InputPressed("exit")) Exit();
+            if (InputManager.InputPressed("zoomIn"))
+                camera.Scale += delta * 5f;
+            if (InputManager.InputPressed("zoomOut"))
+                camera.Scale -= delta * 5f;
+            if (InputManager.InputPressed("exit"))
+                Quit(true);
 
             camera.Update(delta, 10, new Vector2(12, 6));
-            level.Update(delta);
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(level.backgroundColour);
-
+            GraphicsDevice.SetRenderTarget(renderTarget);
+            GraphicsDevice.Clear(LevelManager.level.backgroundColour);
             spriteBatch.Begin(
-                SpriteSortMode.Immediate,
+                SpriteSortMode.Deferred,
                 BlendState.AlphaBlend,
                 SamplerState.PointClamp,
                 DepthStencilState.None,
@@ -82,14 +87,20 @@ namespace VeilsClaim
                 null,
                 camera.Transform);
 
-            level.Draw(spriteBatch);
+            base.Draw(gameTime);
 
             spriteBatch.End();
 
-            base.Draw(gameTime);
+            GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.Begin();
+            spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
+            spriteBatch.End();
         }
         public void SetResolution(int width, int height, bool fullscreen)
         {
+            renderTarget = new RenderTarget2D(GraphicsDevice, width, height);
+            GraphicsDevice.Clear(Color.Transparent);
+
             graphics.PreferredBackBufferWidth = width;
             graphics.PreferredBackBufferHeight = height;
             graphics.IsFullScreen = fullscreen;
@@ -97,6 +108,15 @@ namespace VeilsClaim
 
             camera = new Camera(new Viewport(width / 2, height / 2, width, height));
             camera.Scale = 10;
+        }
+        public void Quit(bool save = true)
+        {
+            if (save)
+            {
+
+            }
+
+            Exit();
         }
     }
 }

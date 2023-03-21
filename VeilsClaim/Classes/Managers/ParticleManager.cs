@@ -45,6 +45,7 @@ namespace VeilsClaim.Classes.Managers
         }
         public override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.SetRenderTarget(Main.renderTarget);
             spriteBatch.Begin(
                 SpriteSortMode.Immediate,                
                 BlendState.AlphaBlend,
@@ -59,6 +60,7 @@ namespace VeilsClaim.Classes.Managers
 
             spriteBatch.End();
 
+            GraphicsDevice.SetRenderTarget(null);
             base.Draw(gameTime);
         }
     }

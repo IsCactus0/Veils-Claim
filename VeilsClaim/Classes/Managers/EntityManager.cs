@@ -23,9 +23,7 @@ namespace VeilsClaim.Classes.Managers
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * Main.gameSpeed;
             if (delta > 0)
                 for (int i = entities.Count - 1; i >= 0; i--)
-                {
                     entities[i].Update(delta);
-                }
 
             base.Update(gameTime);
         }
