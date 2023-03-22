@@ -41,6 +41,7 @@ namespace VeilsClaim.Classes.Utilities
         public Viewport Viewport
         {
             get { return viewport; }
+            set { viewport = value; }
         }
         public Rectangle BoundingBox
         {

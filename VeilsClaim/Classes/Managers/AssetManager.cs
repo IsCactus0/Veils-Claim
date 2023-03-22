@@ -15,12 +15,13 @@ namespace VeilsClaim.Classes.Managers
         {
             content = game.Content;
             device = game.GraphicsDevice;
+
             textures = new Dictionary<string, Texture2D>
             {
                 { "empty", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.Magenta) },
                 { "simple", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.White) },
-                { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 32, Color.White, FadeType.Edge) },
-                { "blur", Utilities.Drawing.Circle(game.GraphicsDevice, 32, Color.White, FadeType.InverseSquare) }
+                { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 4, Color.White, FadeType.Edge) },
+                { "blur", Utilities.Drawing.Circle(game.GraphicsDevice, 3, Color.White, FadeType.InverseSquare) }
             };
             fonts = new Dictionary<string, SpriteFont>();
             assetPath = @$"../../../Assets/";

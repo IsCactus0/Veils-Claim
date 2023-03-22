@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using VeilsClaim.Classes.Managers;
 using VeilsClaim.Classes.Objects;
-using VeilsClaim.Classes.Objects.Tiles;
 using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim
@@ -15,11 +13,9 @@ namespace VeilsClaim
         public SpriteBatch spriteBatch;
         
         public static RenderTarget2D renderTarget;
-        public static Camera camera;
-        public static Random random;
         public static OpenSimplexNoise simplexNoise;
-
-        public static Level level;
+        public static Random random;
+        public static Camera camera;
 
         public static float noiseOffset;
         public static float gameSpeed;
@@ -41,7 +37,8 @@ namespace VeilsClaim
             Components.Add(new EntityManager(this));
             Components.Add(new ParticleManager(this));
 
-            SetResolution(1920, 1080, false);
+            camera = new Camera(new Viewport());
+            SetResolution(1200, 800, false, false);
 
             base.Initialize();
         }
@@ -55,9 +52,6 @@ namespace VeilsClaim
             physicsDistance = 100f;
             renderDistance = 0f;
             gravityStrength = 1f;
-
-            LevelManager.WriteXML("test");
-            LevelManager.ReadXML("test");
         }
         protected override void Update(GameTime gameTime)
         {
@@ -70,8 +64,8 @@ namespace VeilsClaim
                 camera.Scale -= delta * 5f;
             if (InputManager.InputPressed("exit"))
                 Quit(true);
-
-            camera.Update(delta, 10, new Vector2(12, 6));
+            
+            camera.Update(delta, 10, Vector2.Zero);
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -92,22 +86,46 @@ namespace VeilsClaim
             spriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Begin();
-            spriteBatch.Draw(renderTarget, Vector2.Zero, Color.White);
+            spriteBatch.Begin(
+                SpriteSortMode.Deferred,
+                BlendState.AlphaBlend,
+                SamplerState.PointClamp,
+                DepthStencilState.None,
+                RasterizerState.CullNone,
+                null);
+
+            spriteBatch.Draw(
+                renderTarget,
+                new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight),
+                Color.White);
+
             spriteBatch.End();
         }
-        public void SetResolution(int width, int height, bool fullscreen)
+        public void SetResolution(int width, int height, bool fullscreen, bool vsync)
         {
-            renderTarget = new RenderTarget2D(GraphicsDevice, width, height);
+            SetResolution(width, height, width, height, fullscreen, vsync);
+        }
+        public void SetResolution(int resolutionWidth, int resolutionHeight, int windowWidth, int windowHeight, bool fullscreen, bool vsync)
+        {
+            renderTarget = new RenderTarget2D(GraphicsDevice, resolutionWidth, resolutionHeight);
             GraphicsDevice.Clear(Color.Transparent);
 
-            graphics.PreferredBackBufferWidth = width;
-            graphics.PreferredBackBufferHeight = height;
+            IsFixedTimeStep = vsync;
+            graphics.SynchronizeWithVerticalRetrace = vsync;
+            graphics.HardwareModeSwitch = false;
+
+            graphics.PreferredBackBufferWidth = windowWidth;
+            graphics.PreferredBackBufferHeight = windowHeight;
             graphics.IsFullScreen = fullscreen;
             graphics.ApplyChanges();
 
-            camera = new Camera(new Viewport(width / 2, height / 2, width, height));
-            camera.Scale = 10;
+            camera.Viewport = new Viewport(
+                    resolutionWidth / 2,
+                    resolutionHeight / 2,
+                    resolutionWidth,
+                    resolutionHeight);
+
+            camera.Scale = 10f / (windowWidth / resolutionWidth);
         }
         public void Quit(bool save = true)
         {

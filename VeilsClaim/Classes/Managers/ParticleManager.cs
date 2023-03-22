@@ -25,21 +25,44 @@ namespace VeilsClaim.Classes.Managers
             if (delta > 0)
                 for (int i = particles.Count - 1; i >= 0; i--)
                     particles[i].Update(delta);
-
-            particles.Add(new SparkParticle()
+            
+            if (true)
             {
-                StartSize = 5f,
-                EndSize = 5f,
-                StartColour = Color.Orange * 0.2f,
-                EndColour = Color.Maroon * 0.2f,
-                SparkStartSize = 3f,
-                SparkEndSize = 1f,
-                SparkStartColour = Color.White,
-                SparkEndColour = Color.OrangeRed,
-                MaxLifespan = (float)Main.random.NextDouble() / 2f + 1.5f,
-                WindStrength = 400f,
-                Position = Main.camera.Position + new Vector2(Main.random.Next(-3, 3), Main.random.Next(-3, 3))
-            });
+                int strength = Main.random.Next(300, 1000);
+                for (int i = 0; i < strength / 10; i++)
+                {
+                    float dir = Main.random.NextSingle() * MathHelper.TwoPi;
+                    particles.Add(new SparkParticle()
+                    {
+                        Size = 12f,
+                        StartSize = 12f,
+                        EndSize = 8f,
+
+                        Colour = Color.LightSalmon * 0.1f,
+                        StartColour = Color.LightSalmon * 0.1f,
+                        EndColour = Color.OrangeRed,
+
+                        SparkSize = 5f,
+                        SparkStartSize = 5f,
+                        SparkEndSize = 2f,
+
+                        SparkColour = Color.LightGoldenrodYellow,
+                        SparkStartColour = Color.LightGoldenrodYellow,
+                        SparkEndColour = Color.OrangeRed,
+
+                        MaxLifespan = 1f + (float)Main.random.NextDouble() / 5f,
+                        WindStrength = 1000f,
+
+                        Position = new Vector2(
+                            Main.random.Next(-1, 2),
+                            Main.random.Next(-1, 2)),
+
+                        Force = new Vector2(
+                            (float)Math.Cos(dir),
+                            (float)Math.Sin(dir)) * Main.random.Next(20 * strength)
+                    });
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -48,7 +71,7 @@ namespace VeilsClaim.Classes.Managers
             GraphicsDevice.SetRenderTarget(Main.renderTarget);
             spriteBatch.Begin(
                 SpriteSortMode.Immediate,                
-                BlendState.AlphaBlend,
+                BlendState.Additive,
                 SamplerState.PointClamp,
                 DepthStencilState.None,
                 RasterizerState.CullNone,

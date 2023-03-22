@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using VeilsClaim.Classes.Managers;
 
 namespace VeilsClaim.Classes.Objects
@@ -62,6 +63,7 @@ namespace VeilsClaim.Classes.Objects
         public override void Draw(SpriteBatch spriteBatch)
         {
             Texture2D texture = AssetManager.LoadTexture("blur");
+
             spriteBatch.Draw(
                 texture,
                 new Rectangle(
@@ -69,8 +71,12 @@ namespace VeilsClaim.Classes.Objects
                     (int)(Position.Y - (Size / 2f)),
                     (int)Size, (int)Size),
                 texture.Bounds,
-                Colour * ((Size - StartSize) / EndSize),
+                Colour * Fade(),
                 Rotation, new Vector2(0.5f), SpriteEffects.None, 0f);
+        }
+        public virtual float Fade()
+        {
+            return 1f - (TimeAlive / MaxLifespan);
         }
     }
 }

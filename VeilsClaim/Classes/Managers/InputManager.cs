@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim.Classes.Managers
 {
@@ -50,7 +49,10 @@ namespace VeilsClaim.Classes.Managers
 
             base.Update(gameTime);
         }
-
+        public static bool MousePressed()
+        {
+            return currMouseState.LeftButton == ButtonState.Pressed;
+        }
         public static bool InputPressed(string action)
         {
             return (currKeyboardState.IsKeyDown(keyboardControls[action]) ||

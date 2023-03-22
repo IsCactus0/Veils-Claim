@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Security.Cryptography;
 using VeilsClaim.Classes.Managers;
 
 namespace VeilsClaim.Classes.Objects
@@ -9,12 +8,84 @@ namespace VeilsClaim.Classes.Objects
         public Entity()
             : base()
         {
+            Gravity = true;
             Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y)
+            : base(x, y)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy)
+            : base(x, y, vx, vy)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay)
+            : base(x, y, vx, vy, ax, ay)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r)
+            : base(x, y, vx, vy, ax, ay, r)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr)
+            : base(x, y, vx, vy, ax, ay, r, vr)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar)
+            : base(x, y, vx, vy, ax, ay, r, vr, ar)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass)
+            : base(x, y, vx, vy, ax, ay, r, vr, ar, mass)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction)
+            : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
+        {
+            Gravity = true;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, bool gravity)
+            : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
+        {
+            Gravity = gravity;
+            Health = 100;
+            TimeAlive = 0f;
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, bool gravity, float health)
+            : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
+        {
+            Gravity = gravity;
+            Health = health;
+            TimeAlive = 0f;
         }
 
+        public bool Gravity;
         public float Health;
         public float TimeAlive;
-        public bool Gravity;
 
         public override void Destroy()
         {

@@ -11,6 +11,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Saves\**" />
+    <EmbeddedResource Remove="Saves\**" />
+    <None Remove="Saves\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -24,8 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Textures\" />
-    <Folder Include="Classes\Objects\Entities\" />
-    <Folder Include="Saves\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
