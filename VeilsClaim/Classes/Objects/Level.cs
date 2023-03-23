@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace VeilsClaim.Classes.Objects
@@ -52,7 +53,7 @@ namespace VeilsClaim.Classes.Objects
         {
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    tiles[y * width + x]?.Draw(spriteBatch, new Point(x, y));
+                    tiles[y * width + x]?.Draw(spriteBatch);
         }
     }
 }

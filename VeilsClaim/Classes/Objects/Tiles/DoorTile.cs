@@ -19,9 +19,9 @@ namespace VeilsClaim.Classes.Objects.Tiles
 
             base.Update(delta);
         }
-        public override void Draw(SpriteBatch spriteBatch, Point gridPosition)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch, gridPosition);
+            base.Draw(spriteBatch);
         }
     }
 }

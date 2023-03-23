@@ -51,11 +51,8 @@ namespace VeilsClaim.Classes.Managers
 
                     textures.Add(file, texture);
                 }
-                catch (FileNotFoundException error)
+                catch (FileNotFoundException)
                 {
-                    #if (DEBUG)
-                        Console.WriteLine($"Error while loading texture {file}:\n{error}\n");
-                    #endif
                     return textures["empty"];
                 }
 

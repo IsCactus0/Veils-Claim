@@ -31,20 +31,6 @@ namespace VeilsClaim
         }
         protected override void Initialize()
         {
-            Components.Add(new InputManager(this));
-            Components.Add(new AssetManager(this));
-            Components.Add(new LevelManager(this));
-            Components.Add(new EntityManager(this));
-            Components.Add(new ParticleManager(this));
-
-            camera = new Camera(new Viewport());
-            SetResolution(1200, 800, false, false);
-
-            base.Initialize();
-        }
-        protected override void LoadContent()
-        {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
             random = new Random();
             simplexNoise = new OpenSimplexNoise();
 
@@ -52,6 +38,21 @@ namespace VeilsClaim
             physicsDistance = 100f;
             renderDistance = 0f;
             gravityStrength = 1f;
+
+            Components.Add(new InputManager(this));
+            Components.Add(new AssetManager(this));
+            Components.Add(new LevelManager(this));
+            Components.Add(new EntityManager(this));
+            Components.Add(new ParticleManager(this));
+
+            camera = new Camera(new Viewport());
+            SetResolution(600, 400, 1200, 800, false, false);
+
+            base.Initialize();
+        }
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
         protected override void Update(GameTime gameTime)
         {
@@ -65,7 +66,7 @@ namespace VeilsClaim
             if (InputManager.InputPressed("exit"))
                 Quit(true);
             
-            camera.Update(delta, 10, Vector2.Zero);
+            camera.Update(delta, 10, EntityManager.entities[0].Position);
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)

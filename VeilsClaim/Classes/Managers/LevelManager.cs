@@ -16,6 +16,23 @@ namespace VeilsClaim.Classes.Managers
             level = new Level();
             savesPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                 "\\VeilsClaim";
+
+            level = new Level(32, 16);
+
+            for (int y = 0; y < level.height; y++)
+                for (int x = 0; x < level.height; x++)
+                {
+                    string name = $"floor_{Main.random.Next(3)}";
+                    if (y == 0)
+                        name = "wall";
+                    level.tiles[y * level.width + x] = new Tile
+                    {
+                        Name = name,
+                        Sprite = new Rectangle(x * 8, y * 12, 8, 12),
+                        Hitbox = new Rectangle(x * 8, y * 12, 8, 12),
+                        zIndex = 0
+                    };
+                }
         }
 
         public static SpriteBatch spriteBatch;
@@ -41,9 +58,6 @@ namespace VeilsClaim.Classes.Managers
             level.Draw(spriteBatch);
 
             spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-            base.Draw(gameTime);
         }
         public static void ReadXML(string name)
         {

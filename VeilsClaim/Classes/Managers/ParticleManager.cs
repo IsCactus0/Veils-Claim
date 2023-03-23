@@ -26,12 +26,12 @@ namespace VeilsClaim.Classes.Managers
                 for (int i = particles.Count - 1; i >= 0; i--)
                     particles[i].Update(delta);
             
-            if (true)
+            if (false)
             {
                 int strength = Main.random.Next(300, 1000);
                 for (int i = 0; i < strength / 10; i++)
                 {
-                    float dir = Main.random.NextSingle() * MathHelper.TwoPi;
+                    //float dir = Main.random.NextSingle() * MathHelper.TwoPi;
                     particles.Add(new SparkParticle()
                     {
                         Size = 12f,
@@ -53,13 +53,16 @@ namespace VeilsClaim.Classes.Managers
                         MaxLifespan = 1f + (float)Main.random.NextDouble() / 5f,
                         WindStrength = 1000f,
 
-                        Position = new Vector2(
-                            Main.random.Next(-1, 2),
-                            Main.random.Next(-1, 2)),
+                        Position =
 
-                        Force = new Vector2(
-                            (float)Math.Cos(dir),
-                            (float)Math.Sin(dir)) * Main.random.Next(20 * strength)
+
+                        Main.camera.Position + new Vector2(
+                            Main.random.Next(-Main.camera.BoundingBox.Width, Main.camera.BoundingBox.Width),
+                            Main.random.Next(-Main.camera.BoundingBox.Height, Main.camera.BoundingBox.Height)),
+
+                        // Force = new Vector2(
+                        //     (float)Math.Cos(dir),
+                        //     (float)Math.Sin(dir)) * Main.random.Next(20 * strength)
                     });
                 }
             }

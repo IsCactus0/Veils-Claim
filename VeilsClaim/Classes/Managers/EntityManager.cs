@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using VeilsClaim.Classes.Objects;
+using VeilsClaim.Classes.Objects.Entities;
 using VeilsClaim.Classes.Objects.Particles;
 
 namespace VeilsClaim.Classes.Managers
@@ -13,6 +15,8 @@ namespace VeilsClaim.Classes.Managers
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
             entities = new List<Entity>();
+
+            entities.Add(new Player());
         }
 
         public static SpriteBatch spriteBatch;
@@ -29,14 +33,20 @@ namespace VeilsClaim.Classes.Managers
         }
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
+            GraphicsDevice.SetRenderTarget(Main.renderTarget);
+            spriteBatch.Begin(
+                SpriteSortMode.Immediate,
+                BlendState.NonPremultiplied,
+                SamplerState.PointClamp,
+                DepthStencilState.None,
+                RasterizerState.CullNone,
+                null,
+                Main.camera.Transform);
 
             for (int i = entities.Count - 1; i >= 0; i--)
                 entities[i].Draw(spriteBatch);
 
             spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }

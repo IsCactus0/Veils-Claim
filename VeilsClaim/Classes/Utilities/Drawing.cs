@@ -7,13 +7,18 @@ namespace VeilsClaim.Classes.Utilities
 {
     public static class Drawing
     {
-        public static Texture2D Noise(GraphicsDevice graphicsDevice, int width, int height, float cameraX, float cameraY)
+        public static Texture2D Noise(GraphicsDevice graphicsDevice, int width, int height)
         {
             Texture2D rectangle = new Texture2D(graphicsDevice, width, height);
             Color[] colors = new Color[width * height];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
-                    colors[y * width + x] = Color.White * (float)Main.simplexNoise.Evaluate((float)(cameraX - width / 2f), (float)(cameraY - height / 2f));
+                {
+                    colors[y * width + x] = Color.White * (float)Main.simplexNoise.Evaluate(
+                        x / 100f,
+                        y / 100f);
+
+                }
             rectangle.SetData(colors);
             return rectangle;
         }

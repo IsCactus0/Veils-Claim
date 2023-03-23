@@ -146,11 +146,10 @@ namespace VeilsClaim.Classes.Objects
         {
             spriteBatch.Draw(
                 AssetManager.LoadTexture("empty"),
-                new Rectangle(
-                    (int)Position.X, (int)Position.Y, 50, 50),
-                new Rectangle(),
+                Position,
+                null,
                 Color.White,
-                Rotation, new Vector2(0.5f), SpriteEffects.None, 0f);
+                Rotation, new Vector2(0.5f), 8f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -16,9 +16,8 @@ namespace VeilsClaim.Classes.Objects.Particles
         public override void Update(float delta)
         {
             float angle = (float)Main.simplexNoise.Evaluate(
-                Position.X / 50f,
-                Position.Y / 50f,
-                Main.noiseOffset) * MathHelper.TwoPi;
+                Position.X / 100f,
+                Position.Y / 100f) * MathHelper.TwoPi;
 
             Force += new Vector2(
                 (float)Math.Cos(angle), 

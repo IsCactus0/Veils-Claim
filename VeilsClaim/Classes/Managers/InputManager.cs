@@ -15,7 +15,12 @@ namespace VeilsClaim.Classes.Managers
                 { "pause", Keys.Escape },
                 { "door", Keys.Space },
                 { "zoomIn", Keys.OemPlus },
-                { "zoomOut", Keys.OemMinus }
+                { "zoomOut", Keys.OemMinus },
+
+                { "move_up", Keys.W },
+                { "move_down", Keys.S },
+                { "move_left", Keys.A },
+                { "move_right", Keys.D },
             };
             gamePadControls = new Dictionary<string, Buttons>()
             {
@@ -23,7 +28,12 @@ namespace VeilsClaim.Classes.Managers
                 { "pause", Buttons.Start },
                 { "door", Buttons.X },
                 { "zoomIn", Buttons.DPadUp },
-                { "zoomOut", Buttons.DPadDown }
+                { "zoomOut", Buttons.DPadDown },
+
+                { "move_up", Buttons.LeftStick },
+                { "move_down", Buttons.LeftStick },
+                { "move_left", Buttons.LeftStick },
+                { "move_right", Buttons.LeftStick }
             };
         }
 
