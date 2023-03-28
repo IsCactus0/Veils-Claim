@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using VeilsClaim.Classes.Managers;
-using VeilsClaim.Classes.Objects;
 using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim

@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using VeilsClaim.Classes.Objects;
 using VeilsClaim.Classes.Objects.Particles;
+using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim.Classes.Managers
 {
@@ -12,10 +15,12 @@ namespace VeilsClaim.Classes.Managers
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
+            quadTree = new QuadTree(Main.camera.BoundingBox);
             entities = new List<Entity>();
         }
 
         public static SpriteBatch spriteBatch;
+        public static QuadTree quadTree;
         public static List<Entity> entities;
 
         public override void Update(GameTime gameTime)
@@ -35,8 +40,10 @@ namespace VeilsClaim.Classes.Managers
                 entities[i].Draw(spriteBatch);
 
             spriteBatch.End();
-
-            base.Draw(gameTime);
+        }
+        public static List<Entity> FindAll(Rectangle hitbox)
+        {
+            return quadTree.Query(hitbox).Cast<Entity>().ToList();
         }
     }
 }

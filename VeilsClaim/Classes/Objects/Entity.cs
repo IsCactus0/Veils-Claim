@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using VeilsClaim.Classes.Managers;
 
 namespace VeilsClaim.Classes.Objects
@@ -11,6 +12,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y)
             : base(x, y)
@@ -18,6 +20,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy)
             : base(x, y, vx, vy)
@@ -25,6 +28,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay)
             : base(x, y, vx, vy, ax, ay)
@@ -32,6 +36,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay, float r)
             : base(x, y, vx, vy, ax, ay, r)
@@ -39,6 +44,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr)
             : base(x, y, vx, vy, ax, ay, r, vr)
@@ -46,6 +52,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar)
             : base(x, y, vx, vy, ax, ay, r, vr, ar)
@@ -53,6 +60,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass)
@@ -60,6 +68,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
@@ -67,6 +76,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = true;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, bool gravity)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
@@ -74,6 +84,7 @@ namespace VeilsClaim.Classes.Objects
             Gravity = gravity;
             Health = 100;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
         }
         public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, bool gravity, float health)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
@@ -81,6 +92,15 @@ namespace VeilsClaim.Classes.Objects
             Gravity = gravity;
             Health = health;
             TimeAlive = 0f;
+            Hitbox = new Rectangle(0, 0, 16, 16);
+        }
+        public Entity(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, bool gravity, float health, Rectangle hitbox)
+            : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
+        {
+            Gravity = gravity;
+            Health = health;
+            TimeAlive = 0f;
+            Hitbox = hitbox;
         }
 
         public bool Gravity;
@@ -90,6 +110,18 @@ namespace VeilsClaim.Classes.Objects
         public override void Destroy()
         {
             EntityManager.entities.Remove(this);
+        }
+        public override void CalculateCollisions()
+        {
+            List<Entity> entities = EntityManager.FindAll(Hitbox);
+            entities.Remove(this);
+
+            foreach (Entity entity in entities)
+            {
+                // TODO
+                // if (this.Hitbox.Intersects(entity.Hitbox))
+            }
+            
         }
         public override void Update(float delta)
         {

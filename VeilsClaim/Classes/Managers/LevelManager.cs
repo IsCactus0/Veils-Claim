@@ -13,7 +13,10 @@ namespace VeilsClaim.Classes.Managers
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            level = new Level();
+            level = new Level()
+            {
+                backgroundColour = Color.FromNonPremultiplied(12, 12, 18, 256),
+            };
             savesPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) +
                 "\\VeilsClaim";
         }
@@ -41,9 +44,6 @@ namespace VeilsClaim.Classes.Managers
             level.Draw(spriteBatch);
 
             spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-            base.Draw(gameTime);
         }
         public static void ReadXML(string name)
         {

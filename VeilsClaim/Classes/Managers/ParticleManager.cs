@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using VeilsClaim.Classes.Objects;
 using VeilsClaim.Classes.Objects.Particles;
+using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim.Classes.Managers
 {
@@ -13,55 +14,58 @@ namespace VeilsClaim.Classes.Managers
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
+            quadTree = new QuadTree(Main.camera.BoundingBox, 32);
             particles = new List<Particle>();
         }
 
         public static SpriteBatch spriteBatch;
+        public static QuadTree quadTree;
         public static List<Particle> particles;
 
         public override void Update(GameTime gameTime)
         {
+            if (particles.Count > 0)
+                quadTree = new QuadTree(Main.camera.RenderBoundingBox, 32);
+
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * Main.gameSpeed;
             if (delta > 0)
                 for (int i = particles.Count - 1; i >= 0; i--)
                     particles[i].Update(delta);
-            
-            if (true)
+
+            for (int i = particles.Count - 1; i >= 0; i--)
             {
-                int strength = Main.random.Next(300, 1000);
-                for (int i = 0; i < strength / 10; i++)
+                if (Main.camera.WithinBounds(particles[i], Main.physicsDistance))
                 {
-                    float dir = Main.random.NextSingle() * MathHelper.TwoPi;
-                    particles.Add(new SparkParticle()
-                    {
-                        Size = 12f,
-                        StartSize = 12f,
-                        EndSize = 8f,
-
-                        Colour = Color.LightSalmon * 0.1f,
-                        StartColour = Color.LightSalmon * 0.1f,
-                        EndColour = Color.OrangeRed,
-
-                        SparkSize = 5f,
-                        SparkStartSize = 5f,
-                        SparkEndSize = 2f,
-
-                        SparkColour = Color.LightGoldenrodYellow,
-                        SparkStartColour = Color.LightGoldenrodYellow,
-                        SparkEndColour = Color.OrangeRed,
-
-                        MaxLifespan = 1f + (float)Main.random.NextDouble() / 5f,
-                        WindStrength = 1000f,
-
-                        Position = new Vector2(
-                            Main.random.Next(-1, 2),
-                            Main.random.Next(-1, 2)),
-
-                        Force = new Vector2(
-                            (float)Math.Cos(dir),
-                            (float)Math.Sin(dir)) * Main.random.Next(20 * strength)
-                    });
+                    quadTree.Add(particles[i]);
+                    particles[i].Update(delta);
                 }
+                else particles.RemoveAt(i);
+            }
+
+            for (int i = 0; i < Main.camera.BoundingBox.Width; i++)
+            {
+                particles.Add(new SparkParticle()
+                {
+                    SparkSize = 12f,
+                    StartSize = 12f,
+                    EndSize = 8f,
+
+                    Colour = Color.LightSalmon * 0.1f,
+                    StartColour = Color.LightSalmon * 0.1f,
+                    EndColour = Color.OrangeRed,
+
+                    SparkColour = Color.LightGoldenrodYellow,
+                    SparkStartColour = Color.LightGoldenrodYellow,
+                    SparkEndColour = Color.OrangeRed,
+
+                    MaxLifespan = 0.2f + (float)Main.random.NextDouble() / 10f,
+                    WindStrength = 2000f,
+
+                    Position = 
+                        new Vector2(
+                            Main.camera.BoundingBox.Left + i,
+                            Main.camera.BoundingBox.Bottom)
+                });
             }
 
             base.Update(gameTime);
@@ -82,9 +86,6 @@ namespace VeilsClaim.Classes.Managers
                 particles[i].Draw(spriteBatch);
 
             spriteBatch.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-            base.Draw(gameTime);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = 0f;
             Mass = 1f;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y)
         {
@@ -30,6 +31,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = 0f;
             Mass = 1f;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y, float vx, float vy)
         {
@@ -42,6 +44,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = 0f;
             Mass = 1f;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y, float vx, float vy, float ax, float ay)
         {
@@ -54,6 +57,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = 0f;
             Mass = 1f;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y, float vx, float vy, float ax, float ay, float r)
         {
@@ -66,6 +70,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = 0f;
             Mass = 1f;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y, float vx, float vy, float ax, float ay, float r, float vr)
         {
@@ -78,6 +83,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = 0f;
             Mass = 1f;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar)
         {
@@ -90,6 +96,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = ar;
             Mass = 1f;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass)
         {
@@ -102,6 +109,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = ar;
             Mass = mass;
             Friction = 0.1f;
+            Hitbox = new Rectangle();
         }
         public GameObject(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction)
         {
@@ -114,6 +122,20 @@ namespace VeilsClaim.Classes.Objects
             RotationalAcceloration = ar;
             Mass = mass;
             Friction = friction;
+            Hitbox = new Rectangle();
+        }
+        public GameObject(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, Rectangle hitbox)
+        {
+            Position = new Vector2(x, y);
+            Velocity = new Vector2(vx, vy);
+            Acceloration = new Vector2(ax, ay);
+            Force = Vector2.Zero;
+            Rotation = r;
+            RotationalVelocity = vr;
+            RotationalAcceloration = ar;
+            Mass = mass;
+            Friction = friction;
+            Hitbox = hitbox;
         }
 
         public Vector2 Position;
@@ -125,8 +147,10 @@ namespace VeilsClaim.Classes.Objects
         public float RotationalAcceloration;
         public float Mass;
         public float Friction;
+        public Rectangle Hitbox;
 
         public abstract void Destroy();
+        public abstract void CalculateCollisions();
         public virtual void Update(float delta)
         {
             RotationalVelocity += RotationalAcceloration * delta;
