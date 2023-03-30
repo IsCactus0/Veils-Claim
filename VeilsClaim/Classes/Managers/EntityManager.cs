@@ -15,7 +15,6 @@ namespace VeilsClaim.Classes.Managers
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            quadTree = new QuadTree(Main.camera.BoundingBox);
             entities = new List<Entity>();
         }
 
@@ -25,10 +24,16 @@ namespace VeilsClaim.Classes.Managers
 
         public override void Update(GameTime gameTime)
         {
+            if (entities.Count > 0)
+                quadTree = new QuadTree(Main.camera.RenderBoundingBox, 8);
+
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * Main.gameSpeed;
             if (delta > 0)
                 for (int i = entities.Count - 1; i >= 0; i--)
+                {
+                    quadTree.Add(entities[i]);
                     entities[i].Update(delta);
+                }
 
             base.Update(gameTime);
         }

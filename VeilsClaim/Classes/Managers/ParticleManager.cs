@@ -14,7 +14,6 @@ namespace VeilsClaim.Classes.Managers
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            quadTree = new QuadTree(Main.camera.BoundingBox, 32);
             particles = new List<Particle>();
         }
 
@@ -25,7 +24,7 @@ namespace VeilsClaim.Classes.Managers
         public override void Update(GameTime gameTime)
         {
             if (particles.Count > 0)
-                quadTree = new QuadTree(Main.camera.RenderBoundingBox, 32);
+                quadTree = new QuadTree(Main.camera.RenderBoundingBox, 128);
 
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * Main.gameSpeed;
             if (delta > 0)
@@ -42,29 +41,30 @@ namespace VeilsClaim.Classes.Managers
                 else particles.RemoveAt(i);
             }
 
-            for (int i = 0; i < Main.camera.BoundingBox.Width; i++)
+            for (int i = 0; i < 1; i++)
             {
                 particles.Add(new SparkParticle()
                 {
-                    SparkSize = 12f,
-                    StartSize = 12f,
-                    EndSize = 8f,
+                    Size = 6f,
+                    StartSize = 6f,
+                    EndSize = 2f,
 
-                    Colour = Color.LightSalmon * 0.1f,
-                    StartColour = Color.LightSalmon * 0.1f,
+                    SparkSize = 4f,
+                    SparkStartSize = 4f,
+                    SparkEndSize = 1f,
+
+                    Colour = Color.LightSalmon * 0.5f,
+                    StartColour = Color.LightSalmon * 0.5f,
                     EndColour = Color.OrangeRed,
 
-                    SparkColour = Color.LightGoldenrodYellow,
-                    SparkStartColour = Color.LightGoldenrodYellow,
+                    SparkColour = Color.LightGoldenrodYellow * 0.1f,
+                    SparkStartColour = Color.LightGoldenrodYellow * 0.1f,
                     SparkEndColour = Color.OrangeRed,
 
                     MaxLifespan = 0.2f + (float)Main.random.NextDouble() / 10f,
-                    WindStrength = 2000f,
+                    WindStrength = 500f,
 
-                    Position = 
-                        new Vector2(
-                            Main.camera.BoundingBox.Left + i,
-                            Main.camera.BoundingBox.Bottom)
+                    Position = Main.camera.Position + new Vector2(Main.random.NextSingle() - 0.5f, Main.random.NextSingle() - 0.5f) * 2f
                 });
             }
 

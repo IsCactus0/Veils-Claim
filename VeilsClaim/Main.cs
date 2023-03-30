@@ -65,7 +65,7 @@ namespace VeilsClaim
             if (InputManager.InputPressed("exit"))
                 Quit(true);
             
-            camera.Update(delta, 10, EntityManager.entities[0].Position);
+            camera.Update(delta, 10, Vector2.Zero);
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)

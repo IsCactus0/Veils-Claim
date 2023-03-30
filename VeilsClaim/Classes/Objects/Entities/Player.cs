@@ -12,8 +12,6 @@ namespace VeilsClaim.Classes.Objects.Entities
             Gravity = false;
         }
 
-
-
         public override void Destroy()
         {
             base.Destroy();
