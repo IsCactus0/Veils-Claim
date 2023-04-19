@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace VeilsClaim.Classes.Objects.Particles
 {
     public class FadeParticle : Particle
     {
-        public FadeParticle() : base()
+        public FadeParticle()
+            : base()
         {
             StartColour = Color.White;
             EndColour = Color.Transparent;

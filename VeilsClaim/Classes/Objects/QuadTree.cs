@@ -2,9 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using VeilsClaim.Classes.Objects;
 
-namespace VeilsClaim.Classes.Utilities
+namespace VeilsClaim.Classes.Objects
 {
     public class QuadTree
     {

@@ -1,32 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using VeilsClaim.Classes.Objects;
+using VeilsClaim.Classes.Objects.Projectiles;
 
 namespace VeilsClaim.Classes.Managers
 {
-    public class ParticleManager : DrawableGameComponent
+    public class ProjectileManager : DrawableGameComponent
     {
-        public ParticleManager(Game game)
+        public ProjectileManager(Game game)
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            particles = new List<Particle>();
+            projectiles = new List<Projectile>();
         }
 
         public static SpriteBatch spriteBatch;
         public static QuadTree quadTree;
-        public static List<Particle> particles;
+        public static List<Projectile> projectiles;
 
         public override void Update(GameTime gameTime)
         {
-            if (particles.Count > 0)
-                quadTree = new QuadTree(Main.Camera.RenderBoundingBox, 32);
-
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * Main.GameSpeed;
             if (delta > 0)
-                for (int i = particles.Count - 1; i >= 0; i--)
-                    particles[i].Update(delta);
+                for (int i = projectiles.Count - 1; i >= 0; i--)
+                    projectiles[i].Update(delta);
 
             base.Update(gameTime);
         }
@@ -34,18 +33,24 @@ namespace VeilsClaim.Classes.Managers
         {
             GraphicsDevice.SetRenderTarget(Main.RenderTarget);
             spriteBatch.Begin(
-                SpriteSortMode.Immediate,                
-                BlendState.Additive,
+                SpriteSortMode.Immediate,
+                BlendState.NonPremultiplied,
                 SamplerState.PointClamp,
                 DepthStencilState.None,
                 RasterizerState.CullNone,
                 null,
                 Main.Camera.Transform);
 
-            for (int i = particles.Count - 1; i >= 0; i--)
-                particles[i].Draw(spriteBatch);
+            for (int i = projectiles.Count - 1; i >= 0; i--)
+                projectiles[i].Draw(spriteBatch);
 
             spriteBatch.End();
+
+            base.Draw(gameTime);
+        }
+        public static List<Projectile> FindAll(Rectangle bounds)
+        {
+            return quadTree.Query(bounds).Cast<Projectile>().ToList();
         }
     }
 }

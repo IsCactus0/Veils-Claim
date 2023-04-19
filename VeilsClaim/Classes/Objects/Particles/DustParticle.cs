@@ -6,7 +6,8 @@ namespace VeilsClaim.Classes.Objects.Particles
 {
     public class DustParticle : FadeParticle
     {
-        public DustParticle() : base()
+        public DustParticle()
+            : base()
         {
             WindStrength = 500f;
         }
@@ -15,15 +16,13 @@ namespace VeilsClaim.Classes.Objects.Particles
 
         public override void Update(float delta)
         {
-            float angle = (float)Main.simplexNoise.Evaluate(
-                Position.X / 100f,
-                Position.Y / 100f) * MathHelper.TwoPi;
+            float angle = (float)Main.SimplexNoise.Evaluate(
+                Position.X / 100f + Main.NoiseOffset,
+                Position.Y / 100f + Main.NoiseOffset) * MathHelper.TwoPi;
 
             Force += new Vector2(
                 (float)Math.Cos(angle), 
                 (float)Math.Sin(angle)) * (WindStrength * (1f - TimeAlive / MaxLifespan));
-
-            Force += new Vector2(0, (TimeAlive / MaxLifespan) * -100f);
 
             base.Update(delta);
         }

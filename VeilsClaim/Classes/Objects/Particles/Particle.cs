@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using VeilsClaim.Classes.Managers;
+using VeilsClaim.Classes.Objects.Entities;
 
 namespace VeilsClaim.Classes.Objects
 {
-    public class Particle : Entity
+    public abstract class Particle : Entity
     {
         public Particle()
             : base()
@@ -44,7 +44,6 @@ namespace VeilsClaim.Classes.Objects
         public float StartSize;
         public float EndSize;
         public float Size;
-        public float SizeScaleMult;
         public float MaxLifespan;
 
         public override void Destroy()
@@ -63,16 +62,19 @@ namespace VeilsClaim.Classes.Objects
         public override void Draw(SpriteBatch spriteBatch)
         {
             Texture2D texture = AssetManager.LoadTexture("blur");
-
             spriteBatch.Draw(
                 texture,
                 new Rectangle(
                     (int)(Position.X - (Size / 2f)),
                     (int)(Position.Y - (Size / 2f)),
-                    (int)Size, (int)Size),
+                    (int)Size,
+                    (int)Size),
                 texture.Bounds,
                 Colour * Fade(),
-                Rotation, new Vector2(0.5f), SpriteEffects.None, 0f);
+                Rotation,
+                new Vector2(0.5f),
+                SpriteEffects.None,
+                0f);
         }
         public virtual float Fade()
         {

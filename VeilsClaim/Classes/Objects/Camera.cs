@@ -1,21 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Runtime.InteropServices;
-using VeilsClaim.Classes.Objects;
 
-namespace VeilsClaim.Classes.Utilities
+namespace VeilsClaim.Classes.Objects
 {
     public class Camera
     {
         public Camera(Viewport viewport)
         {
             this.viewport = viewport;
+            samplerState = SamplerState.PointClamp;
         }
 
         private Matrix transform;
         private Vector2 position;
         private Vector2 offset;
         private Viewport viewport;
+        private SamplerState samplerState;
 
         private float scale = 1f;
         private float minScale = 0.1f;
@@ -60,11 +60,16 @@ namespace VeilsClaim.Classes.Utilities
             get
             {
                 return new Rectangle(
-                    (int)((X - (viewport.Width / 2f) * (1f / Scale)) - Main.renderDistance),
-                    (int)((Y - (viewport.Height / 2f) * (1f / Scale)) - Main.renderDistance),
-                    (int)((viewport.Width * (1f / Scale)) + Main.renderDistance * 2f),
-                    (int)((viewport.Height * (1f / Scale)) + Main.renderDistance * 2f));
+                    (int)((X - (viewport.Width / 2f) * (1f / Scale)) - Main.RenderDistance),
+                    (int)((Y - (viewport.Height / 2f) * (1f / Scale)) - Main.RenderDistance),
+                    (int)((viewport.Width * (1f / Scale)) + Main.RenderDistance * 2f),
+                    (int)((viewport.Height * (1f / Scale)) + Main.RenderDistance * 2f));
             }
+        }
+        public SamplerState SamplerState
+        {
+            get { return samplerState; }
+            set { samplerState = value; }
         }
         public float X
         {

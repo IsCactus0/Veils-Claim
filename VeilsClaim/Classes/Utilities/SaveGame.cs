@@ -8,6 +8,5 @@ namespace VeilsClaim.Classes.Utilities
     {
         public string name;
         public string dateTime;
-        public Level level;
     }
 }

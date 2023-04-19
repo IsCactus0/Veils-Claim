@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
+using VeilsClaim.Classes.Enums;
+using VeilsClaim.Classes.Objects.Entities;
 
 namespace VeilsClaim.Classes.Managers
 {
@@ -13,27 +16,31 @@ namespace VeilsClaim.Classes.Managers
             {
                 { "exit", Keys.End },
                 { "pause", Keys.Escape },
-                { "door", Keys.Space },
                 { "zoomIn", Keys.OemPlus },
                 { "zoomOut", Keys.OemMinus },
 
-                { "move_up", Keys.W },
-                { "move_down", Keys.S },
-                { "move_left", Keys.A },
-                { "move_right", Keys.D },
+                { "accelerate", Keys.W },
+                { "reverse", Keys.S },
+                { "turn_left", Keys.A },
+                { "turn_right", Keys.D },
+
+                { "shoot", Keys.Space },
+                { "reload", Keys.R },
             };
             gamePadControls = new Dictionary<string, Buttons>()
             {
                 { "exit", Buttons.Back },
                 { "pause", Buttons.Start },
-                { "door", Buttons.X },
                 { "zoomIn", Buttons.DPadUp },
                 { "zoomOut", Buttons.DPadDown },
 
-                { "move_up", Buttons.LeftStick },
-                { "move_down", Buttons.LeftStick },
-                { "move_left", Buttons.LeftStick },
-                { "move_right", Buttons.LeftStick }
+                { "accelerate", Buttons.LeftStick },
+                { "reverse", Buttons.LeftStick },
+                { "turn_left", Buttons.LeftStick },
+                { "turn_right", Buttons.LeftStick },
+
+                { "shoot", Buttons.RightTrigger },
+                { "reload", Buttons.X },
             };
         }
 
@@ -48,6 +55,10 @@ namespace VeilsClaim.Classes.Managers
         protected static GamePadState currGamePadState;
         protected static GamePadState prevGamePadState;
 
+        public static List<Entity> selectedObjects;
+        protected static Vector2 selectStart;
+        protected static Vector2 selectEnd;
+
         public override void Update(GameTime gameTime)
         {
             prevKeyboardState = currKeyboardState;
@@ -59,10 +70,60 @@ namespace VeilsClaim.Classes.Managers
 
             base.Update(gameTime);
         }
-        public static bool MousePressed()
+        public static bool MousePressed(MouseButton button = MouseButton.Left)
         {
-            return currMouseState.LeftButton == ButtonState.Pressed;
+            switch (button) {
+                default:
+                    return currMouseState.LeftButton == ButtonState.Pressed;
+                case MouseButton.Right:
+                    return currMouseState.RightButton == ButtonState.Pressed;
+                case MouseButton.Middle:
+                    return currMouseState.MiddleButton == ButtonState.Pressed;
+            }
         }
+        public static bool MouseFirstPressed(MouseButton button = MouseButton.Left)
+        {
+            switch (button)
+            {
+                default:
+                    return prevMouseState.LeftButton == ButtonState.Released &&
+                        currMouseState.LeftButton == ButtonState.Pressed;
+                case MouseButton.Right:
+                    return prevMouseState.RightButton == ButtonState.Released &&
+                        currMouseState.RightButton == ButtonState.Pressed;
+                case MouseButton.Middle:
+                    return prevMouseState.MiddleButton == ButtonState.Released &&
+                        currMouseState.MiddleButton == ButtonState.Pressed;
+            }
+        }
+        public static bool MouseReleased(MouseButton button = MouseButton.Left)
+        {
+            switch (button)
+            {
+                default:
+                    return currMouseState.LeftButton == ButtonState.Released;
+                case MouseButton.Right:
+                    return currMouseState.RightButton == ButtonState.Released;
+                case MouseButton.Middle:
+                    return currMouseState.MiddleButton == ButtonState.Released;
+            }
+        }
+        public static bool MouseFirstReleased(MouseButton button = MouseButton.Left)
+        {
+            switch (button)
+            {
+                default:
+                    return prevMouseState.LeftButton == ButtonState.Pressed &&
+                        currMouseState.LeftButton == ButtonState.Released;
+                case MouseButton.Right:
+                    return prevMouseState.RightButton == ButtonState.Pressed &&
+                        currMouseState.RightButton == ButtonState.Released;
+                case MouseButton.Middle:
+                    return prevMouseState.MiddleButton == ButtonState.Pressed &&
+                        currMouseState.MiddleButton == ButtonState.Released;
+            }
+        }
+
         public static bool InputPressed(string action)
         {
             return (currKeyboardState.IsKeyDown(keyboardControls[action]) ||
@@ -75,13 +136,37 @@ namespace VeilsClaim.Classes.Managers
                     (currGamePadState.IsButtonDown(gamePadControls[action]) &&
                     prevGamePadState.IsButtonUp(gamePadControls[action]));
         }
+        public static bool InputReleased(string action)
+        {
+            return (currKeyboardState.IsKeyUp(keyboardControls[action]) &&
+                    prevKeyboardState.IsKeyDown(keyboardControls[action])) ||
+                    (currGamePadState.IsButtonUp(gamePadControls[action]) &&
+                    prevGamePadState.IsButtonDown(gamePadControls[action]));
+        }
+
         public static Vector2 MouseWorldPosition()
         {
-            return Vector2.Transform(currMouseState.Position.ToVector2(), Main.camera.InvertedTransform);
+            return Vector2.Transform(currMouseState.Position.ToVector2(), Main.Camera.InvertedTransform);
         }
         public static Vector2 MouseScreenPosition()
         {
             return currMouseState.Position.ToVector2();
+        }
+        public static Rectangle SelectionBounds()
+        {
+            int x, y;
+            if (selectStart.X < selectEnd.X)
+                x = (int)selectStart.X;
+            else x = (int)selectEnd.X;
+
+            if (selectStart.Y < selectEnd.Y)
+                y = (int)selectStart.Y;
+            else y = (int)selectEnd.Y;
+
+            return new Rectangle(
+                x, y,
+                (int)Math.Abs(selectStart.X - selectEnd.X),
+                (int)Math.Abs(selectStart.Y - selectEnd.Y));         
         }
     }
 }
