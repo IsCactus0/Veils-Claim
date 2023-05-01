@@ -7,7 +7,7 @@ namespace VeilsClaim.Classes.Utilities
     {
         public static Vector2 VectorFromAngle(float angle)
         {
-            return new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            return new Vector2(MathF.Cos(angle), MathF.Sin(angle));
         }
         public static Vector2 RandomVector()
         {
@@ -28,7 +28,7 @@ namespace VeilsClaim.Classes.Utilities
         public static Vector2 RandomVector(float minAngle, float maxAngle, float minLength, float maxLength)
         {
             float angle = Main.Random.NextSingle() * (maxAngle - minAngle);
-            Vector2 vector = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+            Vector2 vector = new Vector2(MathF.Cos(angle), MathF.Sin(angle));
             float length = minLength;
             if (minLength != maxLength)
                 length = Main.Random.NextSingle() * (maxLength - minLength) + minLength;
@@ -38,13 +38,9 @@ namespace VeilsClaim.Classes.Utilities
         {
             return Main.Random.NextSingle() < (delta * 60f * chance);
         }
-        public static int Map(int value, int inA, int outA, int inB, int outB )
+        public static float Map(float value, float in1, float in2, float out1, float out2)
         {
-            return (value - inA) / (inB - inA) * (outB - outA) + outA;
-        }
-        public static float Map(float value, float inA, float outA, float inB, float outB)
-        {
-            return (value - inA) / (inB - inA) * (outB - outA) + outA;
+            return (value - in1) / (in2 - in1) * (out2 - out1) + out1;
         }
     }
 }

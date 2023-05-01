@@ -44,7 +44,7 @@ namespace VeilsClaim
             Components.Add(new ParticleManager(this));
 
             Camera = new Camera(new Viewport());
-            SetResolution(1200, 800, 1200, 800, false, false);
+            SetResolution(600, 400, 1200, 800, false, false);
 
             base.Initialize();
         }

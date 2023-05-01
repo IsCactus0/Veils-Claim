@@ -94,7 +94,7 @@ namespace VeilsClaim.Classes.Managers
                 case MouseButton.Middle:
                     return prevMouseState.MiddleButton == ButtonState.Released &&
                         currMouseState.MiddleButton == ButtonState.Pressed;
-            }
+            }            
         }
         public static bool MouseReleased(MouseButton button = MouseButton.Left)
         {

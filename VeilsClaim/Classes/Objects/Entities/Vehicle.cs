@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using VeilsClaim.Classes.Managers;
 using VeilsClaim.Classes.Objects.Entities.Weapons;
 using VeilsClaim.Classes.Objects.Particles;
+using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim.Classes.Objects.Entities
 {
@@ -15,6 +16,7 @@ namespace VeilsClaim.Classes.Objects.Entities
         {
             Thrust = 0f;
             ThrustStrength = 25f;
+            Hitbox = new Rectangle(-5, -5, 10, 10);
         }
 
         public float Thrust;
@@ -24,12 +26,7 @@ namespace VeilsClaim.Classes.Objects.Entities
 
         public override List<Vector2> CreateShape()
         {
-            return new List<Vector2>()
-            {
-                new Vector2( 12.0f,  0.0f),
-                new Vector2(-10.0f,  6.0f),
-                new Vector2(-10.0f, -6.0f)
-            };
+            return Drawing.Ellipse(15, 8, 3);
         }
         public override void Update(float delta)
         {
@@ -38,12 +35,12 @@ namespace VeilsClaim.Classes.Objects.Entities
 
             if (Thrust != 0f)
             {
-                Vector2 dir = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
+                Vector2 dir = new Vector2(MathF.Cos(Rotation), MathF.Sin(Rotation));
                 Force += dir * ThrustStrength * Thrust;
 
                 ParticleManager.particles.Add(new SparkParticle()
                 {
-                    Position = Position - dir * 10f,
+                    Position = Position - dir * 5f,
                     Force = -Force,
                     Size = 5f,
                     StartSize = 5f,

@@ -20,6 +20,7 @@ namespace VeilsClaim.Classes.Managers
             {
                 { "empty", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.Magenta) },
                 { "simple", Utilities.Drawing.Square(game.GraphicsDevice, 1, Color.White) },
+                { "hcircle", Utilities.Drawing.Circle(game.GraphicsDevice, 128, Color.White, FadeType.Edge) },
                 { "circle", Utilities.Drawing.Circle(game.GraphicsDevice, 4, Color.White, FadeType.Edge) },
                 { "blur", Utilities.Drawing.Circle(game.GraphicsDevice, 3, Color.White, FadeType.InverseSquare) }
             };

@@ -6,6 +6,17 @@ namespace VeilsClaim.Classes.Objects.Particles
 {
     public class SparkParticle : DustParticle
     {
+        public SparkParticle()
+            : base()
+        {
+            SparkColour = Color.White;
+            SparkStartColour = Color.White;
+            SparkEndColour = Color.White;
+            SparkSize = 10f;
+            SparkStartSize = 10f;
+            SparkEndSize = 2f;
+        }
+
         public Color SparkStartColour;
         public Color SparkEndColour;
         public Color SparkColour;

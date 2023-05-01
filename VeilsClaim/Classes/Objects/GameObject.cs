@@ -193,7 +193,7 @@ namespace VeilsClaim.Classes.Objects
         }
 
         public abstract void Destroy();
-        public virtual void CheckCollisions()
+        public virtual void CheckCollisions(Vector2 lastPos)
         {
             if (!Hitbox.Intersects(Main.Camera.RenderBoundingBox))
                 Destroy();
@@ -208,16 +208,18 @@ namespace VeilsClaim.Classes.Objects
         }
         public virtual void Update(float delta)
         {
+            Vector2 position = Position;
+
             RotationalAcceloration = RotationalForce / Mass;
             RotationalVelocity += RotationalAcceloration * delta;
-            RotationalVelocity *= (float)Math.Pow(Friction, delta);
+            RotationalVelocity *= MathF.Pow(Friction, delta);
             if (Math.Abs(RotationalVelocity) < 0.01f)
                 RotationalVelocity = 0f;
             Rotation += RotationalVelocity * delta;
 
             Acceloration = Force / Mass;
             Velocity += Acceloration * delta;
-            Velocity *= (float)Math.Pow(Friction, delta);
+            Velocity *= MathF.Pow(Friction, delta);
             if (Velocity.Length() < 0.01f)
                 Velocity = Vector2.Zero;
             Position += Velocity * delta;
@@ -229,7 +231,7 @@ namespace VeilsClaim.Classes.Objects
             RotationalForce = 0f;
             Force = Vector2.Zero;
 
-            CheckCollisions();
+            CheckCollisions(position);
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {

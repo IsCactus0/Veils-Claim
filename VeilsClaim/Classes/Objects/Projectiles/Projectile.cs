@@ -16,6 +16,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = copy.MaxDamage;
             CritChance = copy.CritChance;
             CritMultiplier = copy.CritMultiplier;
+            Hitbox = copy.Hitbox;
         }
         public Projectile()
         {
@@ -24,6 +25,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y)
             : base(x, y)
@@ -33,6 +35,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy)
             : base(x, y, vx, vy)
@@ -42,6 +45,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay)
             : base(x, y, vx, vy, ax, ay)
@@ -51,6 +55,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r)
             : base(x, y, vx, vy, ax, ay, r)
@@ -60,6 +65,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r, float vr)
             : base(x, y, vx, vy, ax, ay, r, vr)
@@ -69,6 +75,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar)
             : base(x, y, vx, vy, ax, ay, r, vr, ar)
@@ -78,6 +85,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass)
@@ -87,6 +95,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction)
@@ -96,6 +105,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, float health)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction, health)
@@ -105,6 +115,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, float health, int teamIndex)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction, health, teamIndex)
@@ -114,6 +125,7 @@ namespace VeilsClaim.Classes.Objects.Projectiles
             MaxDamage = 2;
             CritChance = 0.1f;
             CritMultiplier = 2f;
+            Hitbox = new Rectangle(-3, -3, 6, 6);
         }
         public Projectile(float x, float y, float vx, float vy, float ax, float ay, float r, float vr, float ar, float mass, float friction, float health, int teamIndex, Rectangle hitbox)
             : base(x, y, vx, vy, ax, ay, r, vr, ar, mass, friction, health, teamIndex, hitbox)
@@ -178,35 +190,37 @@ namespace VeilsClaim.Classes.Objects.Projectiles
 
         public override List<Vector2> CreateShape()
         {
-            return Drawing.Circle(3, 8);
+            return Drawing.Circle(12, 4);
         }
         public override void Destroy()
         {
             Position.X -= Main.PhysicsDistance * 2;
             ProjectileManager.projectiles.Remove(this);
         }
-        public override void CheckCollisions()
+        public override void CheckCollisions(Vector2 lastPos)
         {
-            // List<Entity> entities = EntityManager.FindAll(Hitbox);
-            // entities.Remove(this);
-            // foreach (Entity entity in entities)
-            // {
-            //     if (entity.TeamIndex == TeamIndex)
-            //         continue;
-            // 
-            //     float damage = Main.Random.Next(MinDamage, MaxDamage);
-            //     if (Main.Random.NextSingle() < CritChance)
-            //         damage *= CritMultiplier;
-            // 
-            //     entity.Damage((int)damage);
-            //     if (--Penetration <= 0)
-            //     {
-            //         Destroy();
-            //         break;
-            //     }
-            // }
+            Rectangle hitbox = Hitbox;
+            List<Entity> entities = EntityManager.FindAll(hitbox);
+            entities.Remove(this);
 
-            base.CheckCollisions();
+            foreach (Entity entity in entities)
+            {
+                if (entity.TeamIndex == TeamIndex)
+                    continue;
+            
+                float damage = Main.Random.Next(MinDamage, MaxDamage);
+                if (Main.Random.NextSingle() < CritChance)
+                    damage *= CritMultiplier;
+            
+                entity.Damage((int)damage);
+                if (--Penetration <= 0)
+                {
+                    Destroy();
+                    break;
+                }
+            }
+
+            base.CheckCollisions(lastPos);
         }
         public override Projectile Clone()
         {

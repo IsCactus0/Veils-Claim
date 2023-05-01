@@ -246,14 +246,14 @@ namespace VeilsClaim.Classes.Objects
 
         public float CalculateLight(Vector2 vertice, float sunAngle, float sunStrength = 1f)
         {
-            float angle = (float)Math.Atan2(vertice.Y, vertice.X);
+            float angle = MathF.Atan2(vertice.Y, vertice.X);
             float difference = Math.Abs(MathHelper.WrapAngle(sunAngle - angle)) / MathHelper.TwoPi;
             return difference * sunStrength;
         }
         public float CalculateLight(Vector2 vertice, Vector2 lightPos, float sunStrength = 1f)
         {
-            float angle = (float)Math.Atan2(vertice.Y, vertice.X);
-            float lightAngle = (float)Math.Atan2(Origin.Y - lightPos.Y, Origin.X - lightPos.X);
+            float angle = MathF.Atan2(vertice.Y, vertice.X);
+            float lightAngle = MathF.Atan2(Origin.Y - lightPos.Y, Origin.X - lightPos.X);
             float difference = Math.Abs(MathHelper.WrapAngle(lightAngle - angle)) / MathHelper.TwoPi;
             return difference * sunStrength;
         }

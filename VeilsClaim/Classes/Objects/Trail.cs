@@ -133,14 +133,21 @@ namespace VeilsClaim.Classes.Objects
         public Color EndColour;
         public List<Vector2> Joints;
 
-        public virtual void Follow(Vector2 target, float delta = 0f)
+        public virtual void Follow(Vector2 target, float speed = 500f, float delta = 0f)
         {
-            Vector2 toParent = target - Joints[0];
-            float distance = 1;
-            if (target != Joints[0])
+            if (Joints.Count == 0)
+                return;
+
+            Vector2 toParent;
+            float distance;
+            if (target.X != Joints[0].X || target.Y != Joints[0].Y)
+            {
+                toParent = target - Joints[0];
                 distance = toParent.Length();
-            if (Joints.Count > 0)
-                Joints[0] += toParent / distance * delta * 500f;
+                    
+                if (Joints.Count > 0)
+                    Joints[0] += toParent / (distance * delta) * speed;
+            }
 
             if (Joints.Count < 2)
                 return;
@@ -183,8 +190,8 @@ namespace VeilsClaim.Classes.Objects
         {
             for (int i = 1; i < Joints.Count; i++)
             {
-                float thickness = MathAdditions.Map(i, 0, Joints.Count - 1, StartThickness, EndThickness);
-                Color colour = Color.Lerp(StartColour, EndColour, (float)i / Joints.Count);
+                float thickness = MathAdditions.Map(i, 1, Joints.Count - 1, EndThickness, StartThickness);
+                Color colour = Color.Lerp(EndColour, StartColour, (float)i / Joints.Count);
                 Drawing.DrawLine(spriteBatch, Joints[i - 1], Joints[i], colour, thickness);
             }
         }

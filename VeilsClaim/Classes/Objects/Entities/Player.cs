@@ -8,7 +8,8 @@ namespace VeilsClaim.Classes.Objects.Entities
 {
     public class Player : Vehicle
     {
-        public Player() : base()
+        public Player()
+            : base()
         {
             Mass = 3;
             Weapons = new List<Weapon>()

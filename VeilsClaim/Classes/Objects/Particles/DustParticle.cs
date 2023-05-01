@@ -21,8 +21,8 @@ namespace VeilsClaim.Classes.Objects.Particles
                 Position.Y / 100f + Main.NoiseOffset) * MathHelper.TwoPi;
 
             Force += new Vector2(
-                (float)Math.Cos(angle), 
-                (float)Math.Sin(angle)) * (WindStrength * (1f - TimeAlive / MaxLifespan));
+                MathF.Cos(angle), 
+                MathF.Sin(angle)) * (WindStrength * (1f - TimeAlive / MaxLifespan));
 
             base.Update(delta);
         }

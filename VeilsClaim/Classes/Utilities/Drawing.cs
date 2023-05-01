@@ -60,8 +60,8 @@ namespace VeilsClaim.Classes.Utilities
             List<Vector2> vertices = new List<Vector2>();
             for (float angle = 0; angle < MathHelper.TwoPi; angle += MathHelper.TwoPi / detail)
                 vertices.Add(new Vector2(
-                    origin.X + (width / 2) * (float)Math.Cos(angle),
-                    origin.Y + (height / 2) * (float)Math.Sin(angle)));
+                    origin.X + (width / 2) * MathF.Cos(angle),
+                    origin.Y + (height / 2) * MathF.Sin(angle)));
 
             return vertices;
         }
@@ -73,10 +73,27 @@ namespace VeilsClaim.Classes.Utilities
                 new Vector2(size, size)
             };
         }
+        /// <summary>
+        /// Generates a rough circular polygon using simplex noise.
+        /// </summary>
+        /// <param name="radius">The radius of the starting circle.</param>
+        /// <param name="detail">Scale for the noise sampling.</param>
+        /// <param name="roughness">Scale for the offset from the base circle.</param>
+        /// <param name="resolution">The number of vertices in the shape.</param>
+        /// <returns>List of vertices in the shape of an asteroid.</returns>
         public static List<Vector2> Asteroid(float radius, float detail, float roughness, int resolution)
         {
             return Asteroid(radius, detail, roughness, resolution, Vector2.Zero);
         }
+        /// <summary>
+        /// Generates a rough circular polygon using simplex noise.
+        /// </summary>
+        /// <param name="radius">The radius of the starting circle.</param>
+        /// <param name="detail">Scale for the noise sampling.</param>
+        /// <param name="roughness">Scale for the offset from the base circle.</param>
+        /// <param name="resolution">The number of vertices in the shape.</param>
+        /// <param name="origin">The starting location for sampling noise.</param>
+        /// <returns>List of vertices in the shape of an asteroid.</returns>
         public static List<Vector2> Asteroid(float radius, float detail, float roughness, int resolution, Vector2 origin)
         {
             List<Vector2> vertices = new List<Vector2>();
@@ -84,11 +101,13 @@ namespace VeilsClaim.Classes.Utilities
             for (int i = 0; i < resolution; i++)
             {
                 float angle = MathHelper.TwoPi / resolution * i;
-                float offset = (float)Main.SimplexNoise.Evaluate(Math.Cos(angle) * detail + origin.X, Math.Sin(angle) * detail + origin.Y);
+                float offset = (float)Main.SimplexNoise.Evaluate(
+                    Math.Cos(angle) * detail + origin.X + Main.NoiseOffset,
+                    Math.Sin(angle) * detail + origin.Y + Main.NoiseOffset);
 
                 vertices.Add(new Vector2(
-                    (radius + offset * roughness) * (float)Math.Cos(angle),
-                    (radius + offset * roughness) * (float)Math.Sin(angle)));
+                    (radius + offset * roughness) * MathF.Cos(angle),
+                    (radius + offset * roughness) * MathF.Sin(angle)));
             }
 
             return vertices;
@@ -206,7 +225,7 @@ namespace VeilsClaim.Classes.Utilities
         public static void DrawLine(SpriteBatch spriteBatch, Vector2 start, Vector2 end, Color colour, float thickness = 1f)
         {
             var distance = Vector2.Distance(start, end);
-            var angle = (float)Math.Atan2(end.Y - start.Y, end.X - start.X);
+            var angle = MathF.Atan2(end.Y - start.Y, end.X - start.X);
             var origin = new Vector2(0f, 0.5f);
             var scale = new Vector2(distance, thickness);
 

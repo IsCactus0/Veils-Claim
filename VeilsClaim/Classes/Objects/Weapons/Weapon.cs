@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using VeilsClaim.Classes.Enums;
 using VeilsClaim.Classes.Managers;
 using VeilsClaim.Classes.Objects.Projectiles;
@@ -18,6 +19,11 @@ namespace VeilsClaim.Classes.Objects.Entities.Weapons
             MuzzleVelocity = 2000f;
             Spread = 0.1f;
             Projectile = new Bullet();
+            Barrels = new List<Vector2>()
+            {
+                new Vector2(0, 3),
+                new Vector2(0, -3)
+            };
             ShotCount = new Point(1);
             FireMode = FireMode.Automatic;
         }
@@ -28,15 +34,20 @@ namespace VeilsClaim.Classes.Objects.Entities.Weapons
         public float FireRate;
         public float ReloadTime;
         public float MuzzleVelocity;
+        /// <summary>
+        /// Randomised projectile spread (in radians).
+        /// </summary>
         public float Spread;
         public Projectile Projectile;
+        public List<Vector2> Barrels;
         public Point ShotCount;
         public FireMode FireMode;
 
+        protected int barrelIndex;
         protected float lastFired;
         protected float lastReloaded;
 
-        public virtual void Fire(GameObject parent)
+        public virtual void Fire(Entity parent)
         {
             if (lastFired < FireRate)
                 return;
@@ -49,6 +60,9 @@ namespace VeilsClaim.Classes.Objects.Entities.Weapons
                 Loaded -= count;
                 for (int i = 0; i < count; i++)
                     CreateProjectile(parent);
+
+                if (++barrelIndex >= Barrels.Count)
+                    barrelIndex = 0;
             }
         }
         public virtual void Reload()
@@ -59,19 +73,26 @@ namespace VeilsClaim.Classes.Objects.Entities.Weapons
             lastReloaded = 0;
             Loaded = Capacity;
         }
-        public virtual void CreateProjectile(GameObject parent)
+        public virtual void CreateProjectile(Entity parent)
         {
-            Vector2 force = MathAdditions.VectorFromAngle(parent.Rotation) * MuzzleVelocity;
-            
+            Vector2 force = MathAdditions.VectorFromAngle(
+                parent.Rotation + (Spread * ((Main.Random.NextSingle() - 0.5f) * 2f))) * MuzzleVelocity;
+
+            Projectile.Position = parent.Position + Vector2.Transform(Barrels[barrelIndex], Matrix.CreateRotationZ(parent.Rotation));
+            Projectile.Hitbox = new Rectangle(
+                -(int)(Projectile.Position.X - Projectile.Hitbox.Width / 2f),
+                -(int)(Projectile.Position.Y - Projectile.Hitbox.Height/ 2f), 6, 6);
+
+            Projectile.Velocity = parent.Velocity + force / Projectile.Mass;
+            Projectile.TeamIndex = parent.TeamIndex;
+
             Projectile copy = Projectile.Clone();
-            copy.Position = parent.Position;
-            copy.Velocity = parent.Velocity + force;
             ProjectileManager.projectiles.Add(copy);
-            
-            parent.Force -= force;
+
+            parent.Force += -force;
             CreateFireEffects(parent);
         }
-        public abstract void CreateFireEffects(GameObject parent);
+        public abstract void CreateFireEffects(Entity parent);
         public virtual void Update(float delta)
         {
             lastFired += delta;

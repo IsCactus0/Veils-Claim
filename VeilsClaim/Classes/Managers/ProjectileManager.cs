@@ -22,10 +22,14 @@ namespace VeilsClaim.Classes.Managers
 
         public override void Update(GameTime gameTime)
         {
+            quadTree = new QuadTree(Main.Camera.RenderBoundingBox, 16);
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds * Main.GameSpeed;
             if (delta > 0)
                 for (int i = projectiles.Count - 1; i >= 0; i--)
+                {
+                    quadTree.Add(projectiles[i]);
                     projectiles[i].Update(delta);
+                }
 
             base.Update(gameTime);
         }
@@ -41,12 +45,27 @@ namespace VeilsClaim.Classes.Managers
                 null,
                 Main.Camera.Transform);
 
-            for (int i = projectiles.Count - 1; i >= 0; i--)
+            for (int i = 0; i < projectiles.Count; i++)
                 projectiles[i].Draw(spriteBatch);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        public static List<Projectile> FindAll(Vector2 position, float range)
+        {
+            Rectangle bounds = new Rectangle(
+                (int)(position.X - (range / 2f)),
+                (int)(position.Y - (range / 2f)),
+                (int)range,
+                (int)range);
+
+            List<Projectile> found = FindAll(bounds);
+            for (int i = found.Count - 1; i >= 0; i--)
+                if (Vector2.Distance(found[i].Position, position) > range)
+                    found.RemoveAt(i);
+
+            return found;
         }
         public static List<Projectile> FindAll(Rectangle bounds)
         {

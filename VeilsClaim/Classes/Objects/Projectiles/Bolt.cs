@@ -2,24 +2,38 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using VeilsClaim.Classes.Managers;
+using VeilsClaim.Classes.Objects.Particles;
+using VeilsClaim.Classes.Utilities;
 
 namespace VeilsClaim.Classes.Objects.Projectiles
 {
     public class Bolt : Projectile
     {
-        public Bolt(Projectile copy)
+        public Bolt(Bolt copy)
             : base(copy)
         {
-            Friction = 1f;
-            Hitbox = new Rectangle(0, 0, 3, 3);
-            Trail = new Trail(copy.Position, 5, 24f, 5f, 3f, true, Color.White, Color.RoyalBlue);
+            Trail = new Trail(
+                copy.Position,
+                copy.Trail.Joints.Count,
+                copy.Trail.SegmentLength,
+                copy.Trail.StartThickness,
+                copy.Trail.EndThickness,
+                copy.Trail.AllowShrinking,
+                copy.Trail.StartColour,
+                copy.Trail.EndColour);
         }
         public Bolt()
             : base()
         {
             Friction = 1f;
-            Hitbox = new Rectangle(0, 0, 3, 3);
-            Trail = new Trail(Position, 5, 24f, 5f, 3f, true, Color.White, Color.RoyalBlue);
+            Penetration = 1;
+            Trail = new Trail(
+                Position,
+                32, 2f,
+                5f, 1f,
+                true,
+                Color.White,
+                Color.DodgerBlue);
         }
 
         public Trail Trail;
@@ -28,47 +42,53 @@ namespace VeilsClaim.Classes.Objects.Projectiles
         {
             return new List<Vector2>();
         }
-        public override void Update(float delta)
+        public override void Destroy()
         {
-            Trail.Follow(Position, delta);
-            Trail.Limit(Position);
-
-            // if (MathAdditions.Probability(delta, 0.5f))
+            // for (int i = 0; i < (int)(Velocity.Length() / 100); i++)
             //     ParticleManager.particles.Add(new SparkParticle()
             //     {
             //         Position = Position,
             //         Velocity = Velocity,
-            //         Size = 3f,
-            //         StartSize = 3f,
-            //         EndSize = 10f,
-            //         SparkSize = 3f,
-            //         SparkStartSize = 3f,
-            //         SparkEndSize = 1f,
+            //         Size = 15f,
+            //         StartSize = 15f,
+            //         EndSize = 5f,
             //         Colour = Color.LightSkyBlue,
             //         StartColour = Color.LightSkyBlue,
             //         EndColour = Color.RoyalBlue,
-            //         SparkColour = Color.MintCream,
-            //         SparkStartColour = Color.MintCream,
-            //         SparkEndColour = Color.DeepSkyBlue,
             //         Friction = 0.1f,
             //         Mass = 0.005f,
-            //         WindStrength = 2f,
-            //         MaxLifespan = 0.15f + Main.Random.NextSingle() / 5f,
+            //         WindStrength = 20f,
+            //         MaxLifespan = 0.5f + Main.Random.NextSingle() / 5f,
             //     });
+
+            base.Destroy();
+        }
+        public override void Update(float delta)
+        {
+            Trail.Limit(Position);
+
+            if (MathAdditions.Probability(delta, 0.5f))
+                ParticleManager.particles.Add(new SparkParticle()
+                {
+                    Position = Position,
+                    Velocity = Velocity,
+                    Size = 15f,
+                    StartSize = 15f,
+                    EndSize = 5f,
+                    Colour = Color.LightSkyBlue,
+                    StartColour = Color.LightSkyBlue,
+                    EndColour = Color.RoyalBlue,
+                    Friction = 0.1f,
+                    Mass = 0.005f,
+                    WindStrength = 2f,
+                    MaxLifespan = 0.15f + Main.Random.NextSingle() / 5f,
+                });
 
             base.Update(delta);
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
             Trail.Draw(spriteBatch);
-
-            spriteBatch.Draw(
-                AssetManager.LoadTexture("blur"),
-                new Rectangle(
-                    (int)Position.X - 8,
-                    (int)Position.Y - 8,
-                    16, 16),
-                Color.Red);
         }
         public override Bolt Clone()
         {
