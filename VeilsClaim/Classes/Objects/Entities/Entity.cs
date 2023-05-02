@@ -133,8 +133,8 @@ namespace VeilsClaim.Classes.Objects.Entities
             if (Health <= 0f)
                 Destroy();
 
-            foreach (EntityEffect effect in Effects)
-                effect.Update(delta, this);
+            for (int i = Effects.Count - 1; i >= 0; i--)
+                Effects[i].Update(delta, this);
 
             base.Update(delta);
         }

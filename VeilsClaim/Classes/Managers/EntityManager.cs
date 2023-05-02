@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using VeilsClaim.Classes.Objects;
+using VeilsClaim.Classes.Objects.Effects;
 using VeilsClaim.Classes.Objects.Entities;
 using VeilsClaim.Classes.Objects.Entities.Weapons;
 using VeilsClaim.Classes.Objects.Weapons;

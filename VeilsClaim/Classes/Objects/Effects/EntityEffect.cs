@@ -5,19 +5,19 @@ namespace VeilsClaim.Classes.Objects.Effects
 {
     public abstract class EntityEffect
     {
-        public float lastActivated;
-        public float activationTime;
+        public float timeActive;
+        public float MaxTime;
 
+        public virtual void Remove(Entity target)
+        {
+            target.Effects.Remove(this);
+        }
         public virtual void Update(float delta, Entity target)
         {
-            lastActivated += delta;
-            if (lastActivated > activationTime)
-            {
-                lastActivated = 0f;
-                Activate(target);
-            }
+            timeActive += delta;
+            if (timeActive > MaxTime)
+                Remove(target);
         }
-        public abstract void Activate(Entity target);
         public abstract void Draw(SpriteBatch spriteBatch, Entity target);
     }
 }

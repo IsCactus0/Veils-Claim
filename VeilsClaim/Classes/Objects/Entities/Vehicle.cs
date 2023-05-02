@@ -17,12 +17,22 @@ namespace VeilsClaim.Classes.Objects.Entities
             Thrust = 0f;
             ThrustStrength = 25f;
             Hitbox = new Rectangle(-5, -5, 10, 10);
+
+            ThrustStartColour = Color.Crimson;
+            ThrustEndColour = Color.MidnightBlue;
+            ThrustSparkStartColour = Color.Tomato;
+            ThrustSparkEndColour = Color.MediumOrchid;
         }
 
         public float Thrust;
         public float ThrustStrength;
         public int SelectedWeapon;
         public List<Weapon> Weapons;
+
+        public Color ThrustStartColour;
+        public Color ThrustEndColour;
+        public Color ThrustSparkStartColour;
+        public Color ThrustSparkEndColour;
 
         public override List<Vector2> CreateShape()
         {
@@ -48,16 +58,16 @@ namespace VeilsClaim.Classes.Objects.Entities
                     SparkSize = 5f,
                     SparkStartSize = 5f,
                     SparkEndSize = 2.5f,
-                    Colour = Color.LightSkyBlue,
-                    StartColour = Color.LightSkyBlue,
-                    EndColour = Color.RoyalBlue,
-                    SparkColour = Color.MintCream,
-                    SparkStartColour = Color.MintCream,
-                    SparkEndColour = Color.DeepSkyBlue,
+                    Colour = ThrustStartColour,
+                    StartColour = ThrustStartColour,
+                    EndColour = ThrustEndColour,
+                    SparkColour = ThrustSparkStartColour,
+                    SparkStartColour = ThrustSparkStartColour,
+                    SparkEndColour = ThrustSparkEndColour,
                     Friction = 0.1f,
                     Mass = 0.01f,
                     WindStrength = 1f,
-                    MaxLifespan = 0.25f + Main.Random.NextSingle() / 5f,
+                    MaxLifespan = 0.15f + Main.Random.NextSingle() / 5f,
                 });
             }
 
